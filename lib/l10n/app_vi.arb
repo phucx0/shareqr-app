@@ -1,0 +1,59 @@
+{
+  "appSlogan": "Nhanh như chớp, tiện lợi từng giây",
+
+  "commonAll": "Tất cả",
+  "commonCopy": "Sao chép",
+  "commonEdit": "Chỉnh sửa",
+  "commonFavorite": "Yêu thích",
+  "commonShare": "Chia sẻ",
+  "commonSave": "Lưu",
+  "commonDelete": "Xóa",
+  "commonPreview": "Xem trước",
+  "commonVisible": "Hiện",
+  "commonHidden": "Ẩn",
+  "commonSaveChanges": "Lưu thay đổi",
+
+  "filterBank": "Ngân hàng",
+  "filterSocial": "Mạng xã hội",
+  "filterPayment": "Thanh toán",
+  "filterCrypto": "Tiền mã hóa",
+  "filterPhone": "Điện thoại",
+  "filterLink": "Liên kết",
+  "filterMessenger": "Tin nhắn",
+
+  "shortcutTitle": "Phím tắt",
+  "shortcutEditReorder": "Sửa & sắp xếp",
+  "shortcutInstruction": "Nhấn giữ để sắp xếp. Nhấn vào biểu tượng mắt để ẩn/hiện.",
+  "shortcutHiddenTitle": "Phím tắt đã ẩn",
+
+  "shortcutSocialDescription": "Mạng xã hội & liên hệ",
+  "shortcutPaymentDescription": "Thanh toán & dịch vụ tài chính",
+  "shortcutLinkDescription": "Liên kết website & URL",
+
+  "settingTitle": "Cài đặt",
+  "settingGeneral": "Cài đặt chung",
+  "settingContent": "Nội dung",
+  "settingData": "Dữ liệu",
+  "settingDarkMode": "Giao diện tối",
+  "settingDarkModeSubtitle": "Giúp giảm mỏi mắt",
+  "settingBiometricLock": "Khóa sinh trắc học",
+  "settingBiometricLockSubtitle": "Bảo mật ứng dụng",
+  "settingLanguage": "Ngôn ngữ",
+  "settingSelectLanguage": "Chọn ngôn ngữ",
+  "@settingSelectLanguage": {
+    "description": "Nhãn chọn ngôn ngữ ứng dụng"
+  },
+
+  "commonHello": "Xin chào",
+  "welcomeMessage": "Chào mừng đến với ứng dụng của tôi",
+  "greetingMessage": "Xin chào {name}!",
+  "@greetingMessage": {
+    "description": "Lời chào người dùng",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Phúc"
+      }
+    }
+  }
+}

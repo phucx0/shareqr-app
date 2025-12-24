@@ -1,0 +1,1 @@
+enum QRType { social, payment, link }

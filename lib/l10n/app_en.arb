@@ -1,0 +1,58 @@
+{
+    "appSlogan": "Lightning fast, every second counts",
+
+    "commonAll": "All",
+    "commonCopy": "Copy",
+    "commonFavorite": "Favorites",
+    "commonShare": "Share",
+    "commonEdit": "Edit",
+    "commonDelete": "Delete",
+    "commonSave": "Save",
+    "commonPreview": "Preview",
+    "commonVisible": "Visible",
+    "commonHidden": "Hidden",
+    "commonSaveChanges": "Save Changes",
+
+    "filterBank": "Bank",
+    "filterSocial": "Social",
+    "filterPayment": "Payment",
+    "filterCrypto": "Crypto",
+    "filterPhone": "Phone",
+    "filterLink": "Link",
+    "filterMessenger": "Messenger",
+
+    "shortcutTitle": "Shortcuts",
+    "shortcutEditReorder": "Edit & Reorder",
+    "shortcutInstruction": "Long press to reorder. Tap the eye icon to hide/show.",
+    "shortcutHiddenTitle": "Hidden shortcuts",
+
+    "shortcutSocialDescription": "Social media profiles & contacts",
+    "shortcutPaymentDescription": "Payment & financial services",
+    "shortcutLinkDescription": "Website links & URLs",
+
+    "settingTitle": "Settings",
+    "settingGeneral": "General",
+    "settingContent": "Content",
+    "settingData": "Data",
+    "settingDarkMode": "Dark Mode",
+    "settingDarkModeSubtitle": "Reduce eye strain",
+    "settingBiometricLock": "Biometric Lock",
+    "settingBiometricLockSubtitle": "Secure app access",
+    "settingLanguage": "Language",
+    "settingSelectLanguage": "Select Language",
+    "@settingSelectLanguage": {
+        "description": "Label for selecting app language"
+    },
+
+    "welcomeMessage": "Welcome to my app",
+    "greetingMessage": "Hello {name}!",
+    "@greetingMessage": {
+        "description": "Greeting message shown on home screen",
+        "placeholders": {
+        "name": {
+            "type": "String",
+            "example": "John"
+        }
+        }
+    }
+}

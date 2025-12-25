@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_app/core/navigation/navigation_key.dart';
 import 'package:quick_app/core/theme/app_theme.dart';
-import 'package:quick_app/l10n/app_localizations.dart';
+// import 'package:quick_app/l10n/app_localizations.dart';
 import 'package:quick_app/models/favorite_qr.dart';
 import 'package:quick_app/models/shortcut_item.dart';
 import 'package:quick_app/models/shortcut_type.dart';
 import 'package:quick_app/services/type_service.dart';
+import 'l10n/app_localizations.dart';
 import 'providers/locale_provider.dart';
 import 'providers/theme_provider.dart'; // Import ThemeProvider
 import 'screens/home_page.dart';
@@ -79,16 +80,19 @@ class AppContent extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'ShareQR',
           locale: localeProvider.locale,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('vi'),
-            Locale('en'),
-          ],
+          navigatorKey: navigatorKey,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          // localizationsDelegates: const [
+          //   AppLocalizations.delegate,
+          //   GlobalMaterialLocalizations.delegate,
+          //   GlobalWidgetsLocalizations.delegate,
+          //   GlobalCupertinoLocalizations.delegate,
+          // ],
+          // supportedLocales: const [
+          //   Locale('vi'),
+          //   Locale('en'),
+          // ],
           home: const HomePage(),
         );
       },

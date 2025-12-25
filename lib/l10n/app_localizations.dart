@@ -170,6 +170,102 @@ abstract class AppLocalizations {
   /// **'Save Changes'**
   String get commonSaveChanges;
 
+  /// No description provided for @commonQuickAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick actions'**
+  String get commonQuickAction;
+
+  /// No description provided for @commonHello.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello'**
+  String get commonHello;
+
+  /// No description provided for @contentQR.
+  ///
+  /// In en, this message translates to:
+  /// **'QR Content'**
+  String get contentQR;
+
+  /// No description provided for @nameQR.
+  ///
+  /// In en, this message translates to:
+  /// **'QR Name'**
+  String get nameQR;
+
+  /// No description provided for @enterQRName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter QR name'**
+  String get enterQRName;
+
+  /// No description provided for @pasteOrLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste QR content or link'**
+  String get pasteOrLink;
+
+  /// No description provided for @warningContentQR.
+  ///
+  /// In en, this message translates to:
+  /// **'For payments, please scan from QR image'**
+  String get warningContentQR;
+
+  /// No description provided for @addNewQR.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new QR'**
+  String get addNewQR;
+
+  /// No description provided for @noFavoriteQR.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorite QR codes saved'**
+  String get noFavoriteQR;
+
+  /// No description provided for @clipboardPasted.
+  ///
+  /// In en, this message translates to:
+  /// **'Pasted from clipboard'**
+  String get clipboardPasted;
+
+  /// No description provided for @pleaseEnterQRName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter QR name'**
+  String get pleaseEnterQRName;
+
+  /// No description provided for @pleaseEnterQRContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter QR content'**
+  String get pleaseEnterQRContent;
+
+  /// No description provided for @pleaseSelectPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select platform'**
+  String get pleaseSelectPlatform;
+
+  /// No description provided for @autoDetect.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get autoDetect;
+
+  /// No description provided for @scanning.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanning...'**
+  String get scanning;
+
+  /// No description provided for @fromImage.
+  ///
+  /// In en, this message translates to:
+  /// **'From image'**
+  String get fromImage;
+
   /// No description provided for @filterBank.
   ///
   /// In en, this message translates to:
@@ -239,7 +335,7 @@ abstract class AppLocalizations {
   /// No description provided for @shortcutSocialDescription.
   ///
   /// In en, this message translates to:
-  /// **'Social media profiles & contacts'**
+  /// **'Social media & contacts'**
   String get shortcutSocialDescription;
 
   /// No description provided for @shortcutPaymentDescription.
@@ -308,6 +404,12 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get settingLanguage;
 
+  /// No description provided for @selectPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Platform'**
+  String get selectPlatform;
+
   /// Label for selecting app language
   ///
   /// In en, this message translates to:
@@ -320,11 +422,89 @@ abstract class AppLocalizations {
   /// **'Welcome to my app'**
   String get welcomeMessage;
 
-  /// Greeting message shown on home screen
+  /// Greeting message shown to user
   ///
   /// In en, this message translates to:
   /// **'Hello {name}!'**
   String greetingMessage(String name);
+
+  /// No description provided for @scanImageError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error scanning image'**
+  String get scanImageError;
+
+  /// No description provided for @scanSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan successful'**
+  String get scanSuccess;
+
+  /// No description provided for @cannotReadQRData.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to read QR data'**
+  String get cannotReadQRData;
+
+  /// No description provided for @noQRFoundInImage.
+  ///
+  /// In en, this message translates to:
+  /// **'No QR code found in the image'**
+  String get noQRFoundInImage;
+
+  /// No description provided for @imageGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo library'**
+  String get imageGallery;
+
+  /// No description provided for @takePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get takePhoto;
+
+  /// No description provided for @addToFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to favorites'**
+  String get addToFavorites;
+
+  /// No description provided for @qrDeletePermanent.
+  ///
+  /// In en, this message translates to:
+  /// **'This QR will be permanently deleted.\nAre you sure?'**
+  String get qrDeletePermanent;
+
+  /// No description provided for @deleteQrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete QR Code?'**
+  String get deleteQrTitle;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get copied;
+
+  /// No description provided for @addedToFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to favorites'**
+  String get addedToFavorites;
+
+  /// No description provided for @removedFromFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from favorites'**
+  String get removedFromFavorites;
 }
 
 class _AppLocalizationsDelegate

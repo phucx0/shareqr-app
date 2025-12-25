@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:quick_app/l10n/l10n.dart';
 import 'package:quick_app/core/theme/app_theme.dart';
-import 'package:quick_app/l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:quick_app/services/snackbar_service.dart';
@@ -53,12 +53,12 @@ class _EditQRPageState extends State<EditQRPage> {
             children: [
               PickItem(
                 icon: Icons.photo_library,
-                label: 'Thư viện ảnh',
+                label: l10n.imageGallery,
                 onTap: () => Navigator.pop(context, ImageSource.gallery),
               ),
               PickItem(
                 icon: Icons.camera_alt,
-                label: 'Chụp ảnh',
+                label: l10n.takePhoto,
                 onTap: () => Navigator.pop(context, ImageSource.camera),
               ),
               const SizedBox(height: 8),
@@ -91,22 +91,22 @@ class _EditQRPageState extends State<EditQRPage> {
       if (!mounted) return;
 
       if (barcodes.isEmpty) {
-        SnackbarService.showMessage('Không tìm thấy mã QR trong ảnh', context, isError: true);
+        SnackbarService.showMessage(l10n.noQRFoundInImage, context, isError: true);
         return;
       }
 
       final qrData = barcodes.first.rawValue;
       if (qrData == null || qrData.isEmpty) {
-        SnackbarService.showMessage('Không thể đọc dữ liệu QR', context, isError: true);
+        SnackbarService.showMessage(l10n.cannotReadQRData, context, isError: true);
         return;
       }
 
       _controller.text = qrData;
       // _applyAutoDetection(qrData);
-      SnackbarService.showMessage('Đã quét thành công!', context);
+      SnackbarService.showMessage(l10n.scanSuccess, context);
     } catch (e) {
       if (mounted) {
-        SnackbarService.showMessage('Lỗi khi quét ảnh', context, isError: true);
+        SnackbarService.showMessage(l10n.scanImageError, context, isError: true);
       }
     } finally {
       if (mounted) {
@@ -118,7 +118,6 @@ class _EditQRPageState extends State<EditQRPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final type = TypeService.getTypeById(widget.shortcut.typeId);
 
     return Scaffold(
@@ -254,12 +253,11 @@ class _EditQRPageState extends State<EditQRPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'QR Code Data',
+                          Text(
+                            l10n.contentQR,
                             style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           ElevatedButton.icon(
@@ -274,7 +272,7 @@ class _EditQRPageState extends State<EditQRPage> {
                                     ),
                                   )
                                 : const Icon(Icons.image, size: 14),
-                            label: Text(_isScanning ? 'Đang quét...' : 'Từ ảnh', 
+                            label: Text(_isScanning ? l10n.scanning : l10n.fromImage, 
                               style: TextStyle(
                                 fontSize: 14
                               ),
@@ -297,10 +295,10 @@ class _EditQRPageState extends State<EditQRPage> {
                       TextField(
                         controller: _controller,
                         maxLines: 1,
-                        readOnly: widget.shortcut.appKey.toLowerCase() == "bank",
+                        readOnly: widget.shortcut.appKey.toLowerCase() == "payment",
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          hintText: 'Enter QR code data...',
+                          hintText: l10n.enterQRName,
                           hintStyle: const TextStyle(color: Colors.white38),
                           filled: true,
                           fillColor: const Color(0xFF1E293B),

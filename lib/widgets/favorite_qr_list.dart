@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quick_app/l10n/app_localizations.dart';
+import 'package:quick_app/l10n/l10n.dart';
 import 'package:quick_app/models/shortcut_item.dart';
 import 'package:quick_app/widgets/favorite_qr.dart';
 
@@ -15,7 +15,6 @@ class FavoriteQrList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     if (shortcuts.isEmpty) {
       return Center(
         child: InkWell(
@@ -53,16 +52,6 @@ class FavoriteQrList extends StatelessWidget {
                     color: Color.fromARGB(255, 110, 162, 245),
                   ),
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  'Chưa có QR yêu thích',
-                  style: TextStyle(
-                    fontSize: 16,
-                    // color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: -0.5,
-                  ),
-                ),
                 const SizedBox(height: 24),
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -90,7 +79,7 @@ class FavoriteQrList extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Thêm QR vào yêu thích',
+                        l10n.addToFavorites,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,

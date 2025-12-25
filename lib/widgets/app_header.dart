@@ -43,23 +43,23 @@ class AppHeader extends StatelessWidget {
         Row(
           spacing: 8,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFF1F2937),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.search, color: Colors.white),
-                onPressed: () async {
-                  await Navigator.push(
-                    context, 
-                    MaterialPageRoute(
-                      builder: (context) => SearchShortcutPage()
-                    ),
-                  );
-                },
-              ),
-            ),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     color: const Color(0xFF1F2937),
+            //     borderRadius: BorderRadius.circular(12),
+            //   ),
+            //   child: IconButton(
+            //     icon: const Icon(Icons.search, color: Colors.white),
+            //     onPressed: () async {
+            //       await Navigator.push(
+            //         context, 
+            //         MaterialPageRoute(
+            //           builder: (context) => SearchShortcutPage()
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
             Container(
               decoration: BoxDecoration(
                 color: const Color(0xFF1F2937),

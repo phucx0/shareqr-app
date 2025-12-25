@@ -56,7 +56,3 @@ Không lo hết data, không lo mất mạng, không lo thông tin bị lộ vì
 
 > **ShareQR - Made with speed in mind**  
 > Tạo QR nhanh, chia sẻ nhanh, sống tiện lợi hơn!
-
----
-
-Nếu bạn cần thêm hình ảnh thực tế từ ứng dụng, icon, hoặc link tải, cứ cho mình biết để bổ sung nhé!

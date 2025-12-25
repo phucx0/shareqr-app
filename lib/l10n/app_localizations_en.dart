@@ -45,6 +45,54 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonSaveChanges => 'Save Changes';
 
   @override
+  String get commonQuickAction => 'Quick actions';
+
+  @override
+  String get commonHello => 'Hello';
+
+  @override
+  String get contentQR => 'QR Content';
+
+  @override
+  String get nameQR => 'QR Name';
+
+  @override
+  String get enterQRName => 'Enter QR name';
+
+  @override
+  String get pasteOrLink => 'Paste QR content or link';
+
+  @override
+  String get warningContentQR => 'For payments, please scan from QR image';
+
+  @override
+  String get addNewQR => 'Add new QR';
+
+  @override
+  String get noFavoriteQR => 'No favorite QR codes saved';
+
+  @override
+  String get clipboardPasted => 'Pasted from clipboard';
+
+  @override
+  String get pleaseEnterQRName => 'Please enter QR name';
+
+  @override
+  String get pleaseEnterQRContent => 'Please enter QR content';
+
+  @override
+  String get pleaseSelectPlatform => 'Please select platform';
+
+  @override
+  String get autoDetect => 'Automatic';
+
+  @override
+  String get scanning => 'Scanning...';
+
+  @override
+  String get fromImage => 'From image';
+
+  @override
   String get filterBank => 'Bank';
 
   @override
@@ -79,7 +127,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shortcutHiddenTitle => 'Hidden shortcuts';
 
   @override
-  String get shortcutSocialDescription => 'Social media profiles & contacts';
+  String get shortcutSocialDescription => 'Social media & contacts';
 
   @override
   String get shortcutPaymentDescription => 'Payment & financial services';
@@ -115,6 +163,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingLanguage => 'Language';
 
   @override
+  String get selectPlatform => 'Select Platform';
+
+  @override
   String get settingSelectLanguage => 'Select Language';
 
   @override
@@ -124,4 +175,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String greetingMessage(String name) {
     return 'Hello $name!';
   }
+
+  @override
+  String get scanImageError => 'Error scanning image';
+
+  @override
+  String get scanSuccess => 'Scan successful';
+
+  @override
+  String get cannotReadQRData => 'Unable to read QR data';
+
+  @override
+  String get noQRFoundInImage => 'No QR code found in the image';
+
+  @override
+  String get imageGallery => 'Photo library';
+
+  @override
+  String get takePhoto => 'Take photo';
+
+  @override
+  String get addToFavorites => 'Add to favorites';
+
+  @override
+  String get qrDeletePermanent =>
+      'This QR will be permanently deleted.\nAre you sure?';
+
+  @override
+  String get deleteQrTitle => 'Delete QR Code?';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get copied => 'Copied';
+
+  @override
+  String get addedToFavorites => 'Added to favorites';
+
+  @override
+  String get removedFromFavorites => 'Removed from favorites';
 }

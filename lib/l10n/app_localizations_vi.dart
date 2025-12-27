@@ -51,16 +51,22 @@ class AppLocalizationsVi extends AppLocalizations {
   String get commonHello => 'Xin chào';
 
   @override
+  String get scan_qr => 'Quét mã QR';
+
+  @override
+  String get place_qr_in_frame => 'Đưa mã QR vào trong khung để quét';
+
+  @override
   String get contentQR => 'Nội dung QR';
 
   @override
   String get nameQR => 'Tên QR';
 
   @override
-  String get enterQRName => 'Vui lòng nhập tên QR';
+  String get enterQRName => 'Nhập tên QR';
 
   @override
-  String get pasteOrLink => 'Dán nội dung QR hoặc liên kết';
+  String get enterQRContent => 'Nhập nội dung';
 
   @override
   String get warningContentQR => 'Với mã thanh toán, vui lòng quét từ ảnh QR';

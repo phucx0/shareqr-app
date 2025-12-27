@@ -182,6 +182,18 @@ abstract class AppLocalizations {
   /// **'Hello'**
   String get commonHello;
 
+  /// No description provided for @scan_qr.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR code'**
+  String get scan_qr;
+
+  /// No description provided for @place_qr_in_frame.
+  ///
+  /// In en, this message translates to:
+  /// **'Place the QR code inside the frame to scan'**
+  String get place_qr_in_frame;
+
   /// No description provided for @contentQR.
   ///
   /// In en, this message translates to:
@@ -200,11 +212,11 @@ abstract class AppLocalizations {
   /// **'Enter QR name'**
   String get enterQRName;
 
-  /// No description provided for @pasteOrLink.
+  /// No description provided for @enterQRContent.
   ///
   /// In en, this message translates to:
-  /// **'Paste QR content or link'**
-  String get pasteOrLink;
+  /// **'Enter QR content'**
+  String get enterQRContent;
 
   /// No description provided for @warningContentQR.
   ///

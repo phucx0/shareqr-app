@@ -15,10 +15,13 @@
   "commonQuickAction": "Thao tác nhanh",
   "commonHello": "Xin chào",
 
+  "scan_qr": "Quét mã QR",
+  "place_qr_in_frame": "Đưa mã QR vào trong khung để quét",
+
   "contentQR": "Nội dung QR",
   "nameQR": "Tên QR",
-  "enterQRName": "Vui lòng nhập tên QR",
-  "pasteOrLink": "Dán nội dung QR hoặc liên kết",
+  "enterQRName": "Nhập tên QR",
+  "enterQRContent": "Nhập nội dung",
   "warningContentQR": "Với mã thanh toán, vui lòng quét từ ảnh QR",
   "addNewQR": "Thêm mã QR",
   "noFavoriteQR": "Chưa có mã QR yêu thích",

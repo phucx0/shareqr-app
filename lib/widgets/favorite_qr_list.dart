@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:quick_app/l10n/l10n.dart';
-import 'package:quick_app/models/shortcut_item.dart';
+import 'package:quick_app/models/qr_item.dart';
 import 'package:quick_app/widgets/favorite_qr.dart';
 
 class FavoriteQrList extends StatelessWidget {
-  final List<ShortcutItem> shortcuts;
+  final List<QRItem> qrs;
   final VoidCallback onAddTap;
   const FavoriteQrList({
     super.key,
-    required this.shortcuts,
+    required this.qrs,
     required this.onAddTap
   });
 
 
   @override
   Widget build(BuildContext context) {
-    if (shortcuts.isEmpty) {
+    if (qrs.isEmpty) {
       return Center(
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: onAddTap,
           child: Container(
+            width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -96,51 +97,59 @@ class FavoriteQrList extends StatelessWidget {
       );
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 12,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              spacing: 8,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 24,
-                ),
-                Text(
-                  l10n.commonFavorite,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(24)
+      ),
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 16,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                spacing: 8,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                    size: 24,
                   ),
-                ),
-              ],
-            ),
-
-            if (shortcuts.isNotEmpty)
-              GestureDetector(
-                onTap: onAddTap,
-                child: Icon(
-                  Icons.add,
-                ),
-              )
-          ],
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            spacing: 16,
-            children: shortcuts.map((shortcut) {
-              return FavoriteQr(shortcut: shortcut);
-            }).toList()
-          )
-        ),
-      ],
+                  Text(
+                    l10n.commonFavorite,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ],
+              ),
+      
+              if (qrs.isNotEmpty)
+                GestureDetector(
+                  onTap: onAddTap,
+                  child: Icon(
+                    Icons.push_pin,
+                    size: 20,
+                  ),
+                )
+            ],
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              spacing: 12,
+              children: qrs.map((shortcut) {
+                return FavoriteQr(qr: shortcut);
+              }).toList()
+            )
+          ),
+        ],
+      ),
     );
   }
 }

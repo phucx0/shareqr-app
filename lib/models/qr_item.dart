@@ -1,11 +1,12 @@
 import 'package:hive/hive.dart';
-import 'package:quick_app/models/shortcut_type.dart';
+import 'package:quick_app/models/qr_enum.dart';
+import 'package:quick_app/models/qr_type.dart';
 import 'package:quick_app/services/favorite_qr_service.dart';
 
-part 'shortcut_item.g.dart';
+part 'qr_item.g.dart';
 
 @HiveType(typeId: 0)
-class ShortcutItem extends HiveObject {
+class QRItem extends HiveObject {
   @HiveField(0)
   final String id;
 
@@ -31,25 +32,25 @@ class ShortcutItem extends HiveObject {
   int position;
 
   @HiveField(8)
-  String typeId;
+  QrType type;
 
   @HiveField(9)
   String description; // ← THÊM FIELD NÀY
 
-  ShortcutItem({
+  QRItem({
     required this.id,
     required this.title,
     required this.colorValue,
     required this.qrData,
     required this.position,
-    required this.typeId,
+    required this.type,
     required this.appKey,
     this.isVisible = true,
     this.iconPath,
     this.description = '', // ← THÊM PARAMETER NÀY
   });
 
-  ShortcutItem copyWith({
+  QRItem copyWith({
     String? id,
     String? title,
     int? colorValue,
@@ -61,29 +62,29 @@ class ShortcutItem extends HiveObject {
     String? iconPath,
     String? description, // ← THÊM PARAMETER NÀY
   }) {
-    return ShortcutItem(
+    return QRItem(
       id: id ?? this.id,
       title: title ?? this.title,
       qrData: qrData ?? this.qrData,
       isVisible: isVisible ?? this.isVisible,
       position: position ?? this.position,
-      typeId: typeId ?? this.typeId,
+      type: type,
       appKey: appKey ?? this.appKey,
       iconPath: iconPath ?? this.iconPath,
       colorValue: colorValue ?? this.colorValue,
-      description: description ?? this.description, // ← THÊM DÒNG NÀY
+      description: description ?? this.description,
     );
   }
 
   // Helper method để lấy ShortcutType
-  ShortcutType? get type {
-    final box = Hive.box<ShortcutType>('shortcutTypesBox');
-    return box.get(typeId);
+  QrTypeModel? get getType {
+    final box = Hive.box<QrTypeModel>('QRTypesBox');
+    return box.get(type.name);
   }
 
   // Helper method để lấy type name
   String get typeName {
-    return type?.name ?? 'Unknown';
+    return getType?.name ?? 'Unknown';
   }
 
   bool get isFavorite {

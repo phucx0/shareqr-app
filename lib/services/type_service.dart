@@ -1,75 +1,80 @@
 import 'package:hive/hive.dart';
-import 'package:quick_app/models/shortcut_type.dart';
+import 'package:quick_app/models/qr_enum.dart';
+import 'package:quick_app/models/qr_type.dart';
 
 class TypeService {
-  static Box<ShortcutType> get _box => Hive.box<ShortcutType>('shortcutTypesBox');
+  static Box<QrTypeModel> get _box => Hive.box<QrTypeModel>('QRTypesBox');
 
-
-  static ShortcutType getTypeById(String id) {
-    return _box.values.where((b) => b.id == id).first;
+  static QrTypeModel getTypeById(QrType type) {
+    return _box.values.where((b) => b.type == type).first;
   }
 
-  static Future<void> addType(ShortcutType type) async {
-    await _box.put(type.id, type);
+  static Future<void> addType(QrTypeModel qrType) async {
+    await _box.put(qrType.type.name, qrType);
   }
 
-  static List<ShortcutType> getAllTypes() {
+  static List<QrTypeModel> getAllTypes() {
     return _box.values.toList();
   }
 
-  static Future<void> removeType(String id) async {
-    await _box.delete(id);
+  static Future<void> removeType(QrType type) async {
+    await _box.delete(type.name);
   }
 
   static Future<void> initType() async{
-    List<ShortcutType> list = getDefaultTypes();
+    List<QrTypeModel> list = getDefaultTypes();
     for (var t in list) {
       await addType(t);
     }
   }
 
   // Get default shortcuts
-  static List<ShortcutType> getDefaultTypes() {
+  static List<QrTypeModel> getDefaultTypes() {
     return [
-      ShortcutType(
+      QrTypeModel(
+        type: QrType.payment,
         name: "Payment",
-        id: "0",
         icon: "assets/svg/payment.svg"
       ),
-      ShortcutType(
+      QrTypeModel(
+        type: QrType.crypto,
         name: "Crypto",
-        id: "1",
         icon: "assets/svg/bitcoin.svg"
       ),
-      ShortcutType(
+      QrTypeModel(
+        type: QrType.social,
         name: "Social",
-        id: "2",
         icon: "assets/svg/social.svg"
       ),
-      ShortcutType(
+      QrTypeModel(
+        type: QrType.messenger,
         name: "Messenger",
-        id: "3",
         icon: "assets/svg/messenger.svg"
       ),
-      ShortcutType(
+      QrTypeModel(
+        type: QrType.email,
         name: "Email",
-        id: "4",
         icon: "assets/svg/email.svg"
       ),
-      ShortcutType(
+      QrTypeModel(
+        type: QrType.phone,
         name: "Phone",
-        id: "5",
         icon: "assets/svg/phone.svg"
       ),
-      ShortcutType(
+      QrTypeModel(
+        type: QrType.wifi,
         name: "WiFi",
-        id: "6",
         icon: "assets/svg/wifi.svg"
       ),
-      ShortcutType(
+      QrTypeModel(
+        type: QrType.url,
         name: "Link",
-        id: "10",
         icon: "assets/svg/link.svg"
+      ),
+      QrTypeModel(
+        type: QrType.text,
+        name: "Text",
+        icon: "assets/svg/text.svg"
       ),
     ];
   }

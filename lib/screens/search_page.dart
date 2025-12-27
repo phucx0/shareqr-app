@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import '../models/shortcut_item.dart';
-import '../services/storage_service.dart';
-import '../services/type_service.dart';
+import '../models/qr_item.dart';
+import '../services/qr_service.dart';
 
-class SearchShortcutPage extends StatefulWidget {
+class SearchQRPage extends StatefulWidget {
   final String? initialSearchText;
   
-  const SearchShortcutPage({
+  const SearchQRPage({
     Key? key,
     this.initialSearchText,
   }) : super(key: key);
 
   @override
-  State<SearchShortcutPage> createState() => _SearchShortcutPageState();
+  State<SearchQRPage> createState() => _SearchQRPageState();
 }
 
-class _SearchShortcutPageState extends State<SearchShortcutPage> {
+class _SearchQRPageState extends State<SearchQRPage> {
   final TextEditingController _searchController = TextEditingController();
-  List<ShortcutItem> _searchResults = [];
-  List<ShortcutItem> _allShortcuts = [];
+  List<QRItem> _searchResults = [];
+  List<QRItem> _allShortcuts = [];
   bool _isSearching = false;
 
   @override
@@ -38,7 +37,7 @@ class _SearchShortcutPageState extends State<SearchShortcutPage> {
 
   void _loadAllShortcuts() {
     setState(() {
-      _allShortcuts = StorageService.getAllShortcuts();
+      _allShortcuts = QRService.getAllQRs();
       _searchResults = _allShortcuts; // Hiển thị tất cả ban đầu
     });
   }
@@ -60,20 +59,9 @@ class _SearchShortcutPageState extends State<SearchShortcutPage> {
         final qrDataLower = shortcut.qrData.toLowerCase();
         
         return titleLower.contains(queryLower) || 
-               qrDataLower.contains(queryLower);
+          qrDataLower.contains(queryLower);
       }).toList();
     });
-  }
-
-  String _getTypeName(String typeId) {
-    try {
-      final type = TypeService.getDefaultTypes().firstWhere(
-        (t) => t.id == typeId,
-      );
-      return type.name;
-    } catch (e) {
-      return 'Unknown';
-    }
   }
 
   @override
@@ -205,7 +193,7 @@ class _SearchShortcutPageState extends State<SearchShortcutPage> {
     );
   }
 
-  Widget _buildSearchResultItem(ShortcutItem shortcut) {
+  Widget _buildSearchResultItem(QRItem qr) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -217,7 +205,7 @@ class _SearchShortcutPageState extends State<SearchShortcutPage> {
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: () {
-            Navigator.pop(context, shortcut);
+            Navigator.pop(context, qr);
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -228,16 +216,16 @@ class _SearchShortcutPageState extends State<SearchShortcutPage> {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    color: Color(shortcut.colorValue).withOpacity(0.2),
+                    color: Color(qr.colorValue).withOpacity(0.2),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
                     child: Text(
-                      shortcut.title.isNotEmpty 
-                          ? shortcut.title[0].toUpperCase()
+                      qr.title.isNotEmpty 
+                          ? qr.title[0].toUpperCase()
                           : '?',
                       style: TextStyle(
-                        color: Color(shortcut.colorValue),
+                        color: Color(qr.colorValue),
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -252,7 +240,7 @@ class _SearchShortcutPageState extends State<SearchShortcutPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        shortcut.title,
+                        qr.title,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -263,7 +251,7 @@ class _SearchShortcutPageState extends State<SearchShortcutPage> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        shortcut.qrData,
+                        qr.qrData,
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.5),
                           fontSize: 14,
@@ -278,13 +266,13 @@ class _SearchShortcutPageState extends State<SearchShortcutPage> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(shortcut.colorValue).withOpacity(0.2),
+                          color: Color(qr.colorValue).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(
-                          _getTypeName(shortcut.typeId),
+                          qr.getType!.getName(context),
                           style: TextStyle(
-                            color: Color(shortcut.colorValue),
+                            color: Color(qr.colorValue),
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),

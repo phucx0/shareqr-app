@@ -18,7 +18,7 @@ class FavoriteQRAdapter extends TypeAdapter<FavoriteQR> {
     };
     return FavoriteQR(
       id: fields[0] as String,
-      shortcutId: fields[1] as String,
+      qrId: fields[1] as String,
       createdAt: fields[2] as DateTime,
       lastUsedAt: fields[3] as DateTime?,
       usageCount: fields[4] as int,
@@ -33,7 +33,7 @@ class FavoriteQRAdapter extends TypeAdapter<FavoriteQR> {
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.shortcutId)
+      ..write(obj.qrId)
       ..writeByte(2)
       ..write(obj.createdAt)
       ..writeByte(3)

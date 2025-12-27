@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import '../models/shortcut_item.dart';
-import 'shortcut_card.dart';
+import '../models/qr_item.dart';
+import 'qr_card.dart';
 
-class ShortcutGrid extends StatelessWidget {
-  final List<ShortcutItem> shortcuts;
-  final Function(ShortcutItem) onShortcutTap;
+class QRGrid extends StatelessWidget {
+  final List<QRItem> qrs;
+  final Function(QRItem) onTap;
 
-  const ShortcutGrid({
+  const QRGrid({
     super.key,
-    required this.shortcuts,
-    required this.onShortcutTap,
+    required this.qrs,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (shortcuts.isEmpty) {
+    if (qrs.isEmpty) {
       return const SizedBox.shrink();
     }
 
@@ -22,13 +22,13 @@ class ShortcutGrid extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final crossAxisCount = 4; // 4 cho tablet, 2 cho phone
     
-    final itemCount = shortcuts.length;
+    final itemCount = qrs.length;
     final rowCount = (itemCount / crossAxisCount).ceil();
     
     // Tính chiều cao dựa trên childAspectRatio và spacing
-    final itemWidth = (screenWidth - 40 - (crossAxisCount - 1) * 24) / crossAxisCount;
-    final itemHeight = itemWidth / 0.76;
-    final gridHeight = rowCount * itemHeight + (rowCount - 1) * 24;
+    final itemWidth = (screenWidth - 40 - (crossAxisCount - 1) * 12) / crossAxisCount;
+    final itemHeight = itemWidth / 1;
+    final gridHeight = rowCount * itemHeight + (rowCount - 1) * 12;
     
     return SizedBox(
       height: gridHeight,
@@ -38,15 +38,15 @@ class ShortcutGrid extends StatelessWidget {
         padding: EdgeInsets.zero,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
-          mainAxisSpacing: 24,
-          crossAxisSpacing: 24,
-          childAspectRatio: 0.76,
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 12,
+          childAspectRatio: 1,
         ),
-        itemCount: shortcuts.length,
+        itemCount: qrs.length,
         itemBuilder: (context, index) {
-          return ShortcutCard(
-            shortcut: shortcuts[index],
-            onTap: () => onShortcutTap(shortcuts[index]),
+          return QRCard(
+            qr: qrs[index],
+            onTap: () => onTap(qrs[index]),
           );
         },
       ),

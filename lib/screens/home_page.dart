@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:quick_app/core/theme/app_theme.dart';
 import 'package:quick_app/l10n/l10n.dart';
 import 'package:quick_app/models/favorite_qr.dart';
-import 'package:quick_app/models/qr_type.dart';
+import 'package:quick_app/models/qr_enum.dart';
 import 'package:quick_app/screens/add_qr_page.dart';
 import 'package:quick_app/screens/edit_qr_page.dart';
 import 'package:quick_app/services/favorite_qr_service.dart';
 import 'package:quick_app/services/snackbar_service.dart';
 import 'package:quick_app/services/type_service.dart';
+import 'package:quick_app/widgets/animated_fab.dart';
 import 'package:quick_app/widgets/favorite_qr_list.dart';
 import 'package:quick_app/widgets/qr_action_bottom_sheet.dart';
-import '../models/shortcut_item.dart';
+import '../models/qr_item.dart';
 import '../widgets/app_header.dart';
-import '../widgets/shortcut_grid.dart';
-import '../services/storage_service.dart';
+import '../widgets/qr_grid.dart';
+import '../services/qr_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,21 +26,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<ShortcutItem> shortcuts = [];
+  List<QRItem> qrs = [];
   bool isLoading = true;
-  QRType? selectedFilter;
+  QrType? selectedFilter;
 
   @override
   void initState() {
     super.initState();
-    _loadShortcuts();
+    _loadQRs();
   }
 
-  Future<void> _loadShortcuts() async {
+  Future<void> _loadQRs() async {
     try {
       setState(() {
-        shortcuts = StorageService.getAllShortcuts();
+        qrs = QRService.getAllQRs();
         isLoading = false;
+        print('QRs: ${qrs.length}');
       });
     } catch (e) {
       setState(() {
@@ -48,17 +49,19 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
-  Future<void> _toggleFavorite(bool isFavorite, ShortcutItem shortcut) async {
+  Future<void> _toggleFavorite(bool isFavorite, QRItem qr) async {
     try {
       if (isFavorite) {
-        await FavoriteQRService.deleteFavoriteByShortcutId(shortcut.id);
+        await FavoriteQRService.deleteFavoriteByQRId(qr.id);
+        SnackbarService.showMessage(l10n.removedFromFavorites, context);
       } else {
         await FavoriteQRService.addFavorite(
-          shortcutId: shortcut.id,
-          note: shortcut.description.isNotEmpty 
-              ? shortcut.description 
+          shortcutId: qr.id,
+          note: qr.description.isNotEmpty 
+              ? qr.description 
               : null,
         );
+        SnackbarService.showMessage(l10n.addedToFavorites, context);
       }
       
     } catch (e) {
@@ -69,80 +72,94 @@ class _HomePageState extends State<HomePage> {
   }
 
   void openAddFavoriteQR({VoidCallback? onEdited}) {
+    List<QRItem> sortedQRs = List.from(qrs); // tạo bản copy
+    sortedQRs.sort((a, b) {
+      // 1. favorite lên đầu
+      int favCompare = (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0);
+      if (favCompare != 0) return favCompare;
+      
+      // 2. cùng isFavorite → sort theo tên alphabet
+      return a.title.compareTo(b.title);
+    });
+
+
     showModalBottomSheet(
       context: context,
       builder: (_) => StatefulBuilder(  
         builder: (context, setModalState) => Container(
           decoration: BoxDecoration(
-            color: AppTheme.darkest,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
-          child: Column(
-            spacing: 16,
-            children: [
-              // Drag Handle
-              Container(
-                margin: const EdgeInsets.only(top: 12, bottom: 16),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(2),
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: 16,
+              children: [
+                // Drag Handle
+                Container(
+                  margin: const EdgeInsets.only(top: 12, bottom: 16),
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                child: Column(
-                  spacing: 16,
-                  children: shortcuts.map((qr) {
-                    bool isFavorite = qr.isFavorite;
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              qr.title,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  child: Column(
+                    spacing: 16,
+                    children: sortedQRs.map((qr) {
+                      bool isFavorite = qr.isFavorite;
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                qr.title,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700
+                                ),
                               ),
-                            ),
-                            Text(
-                              qr.type!.getName(context),
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white60
+                              Text(
+                                qr.getType!.getName(context),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  // color: Colors.white60
+                                ),
+                              )
+                            ],
+                          ),
+                  
+                          InkWell(
+                            onTap: () async {  
+                              await _toggleFavorite(isFavorite, qr);
+                              setModalState(() {}); 
+                              onEdited?.call(); 
+                              sortedQRs.sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0));
+                            },
+                            borderRadius: BorderRadius.circular(50),
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
+                              child: Icon(
+                                isFavorite ? Icons.star : Icons.star_border,
+                                color: isFavorite ? Colors.amber : Theme.of(context).colorScheme.onBackground,
+                                size: 20,
                               ),
-                            )
-                          ],
-                        ),
-                
-                        InkWell(
-                          onTap: () async {  
-                            await _toggleFavorite(isFavorite, qr);
-                            setModalState(() {}); 
-                            onEdited?.call(); 
-                          },
-                          borderRadius: BorderRadius.circular(50),
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            child: Icon(
-                              isFavorite ? Icons.star : Icons.star_border,
-                              color: isFavorite ? Colors.amber : Colors.white,
-                              size: 20,
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  }).toList()
-                ),
-              )
-            ]
+                        ],
+                      );
+                    }).toList()
+                  ),
+                )
+              ]
+            ),
           ),
         ),
       )
@@ -164,7 +181,8 @@ class _HomePageState extends State<HomePage> {
     }
 
     // Empty state - khích lệ tạo QR đầu tiên
-    if (shortcuts.isEmpty) {
+    if (qrs.isEmpty) {
+
       return Scaffold(
         backgroundColor: Color(0xFF0F172A),
         body: SafeArea(
@@ -231,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => AddQRScreen(),
                         ),
                       );
-                      _loadShortcuts();
+                      _loadQRs();
                     },
                     style: ElevatedButton.styleFrom(
                       textStyle: const TextStyle(
@@ -272,10 +290,14 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
-      // backgroundColor: const Color(0xFF0F172A),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            right: 20.0,
+            top: 20.0
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -283,14 +305,14 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 24),
 
               ValueListenableBuilder(
-                valueListenable: Hive.box<ShortcutItem>('shortcutsBox').listenable(),
-                builder: (context, shortcutsBox, _) {
+                valueListenable: Hive.box<QRItem>('QRsBox').listenable(),
+                builder: (context, qrsBox, _) {
                   return ValueListenableBuilder(
                     valueListenable: Hive.box<FavoriteQR>('favoriteQRBox').listenable(),
                     builder: (context, favoriteBox, _) {
                       final favoriteQRList = FavoriteQRService.getFavoriteShortcuts();
                       return FavoriteQrList(
-                        shortcuts: favoriteQRList,
+                        qrs: favoriteQRList,
                         onAddTap: openAddFavoriteQR,
                       );
                     },
@@ -302,16 +324,16 @@ class _HomePageState extends State<HomePage> {
               // Main content - scrollable
               Expanded(
                 child: ValueListenableBuilder(
-                  valueListenable: Hive.box<ShortcutItem>('shortcutsBox').listenable(),
-                  builder: (context, Box<ShortcutItem> box, _) {
-                    final _shortcuts = box.values.toList();
-                    shortcuts = _shortcuts;
+                  valueListenable: Hive.box<QRItem>('QRsBox').listenable(),
+                  builder: (context, Box<QRItem> box, _) {
+                    final _QRs = box.values.toList();
+                    qrs = _QRs;
                     return SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: TypeService.getDefaultTypes().map((type) {
-                          final typeShortcuts = _shortcuts
-                              .where((s) => s.typeId == type.id)
+                          final typeShortcuts = _QRs
+                              .where((s) => s.type == type.type)
                               .toList();
 
                           if (typeShortcuts.isEmpty) {
@@ -327,9 +349,9 @@ class _HomePageState extends State<HomePage> {
                                 color: const Color(0xFF10B981),
                               ),
                               const SizedBox(height: 12),
-                              ShortcutGrid(
-                                shortcuts: typeShortcuts,
-                                onShortcutTap: _handleShortcutTap,
+                              QRGrid(
+                                qrs: typeShortcuts,
+                                onTap: _handleShortcutTap,
                               ),
                               const SizedBox(height: 24),
                             ],
@@ -344,8 +366,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: GestureDetector(
-        onTap: () async {
+      floatingActionButton: AnimatedFab(
+        onPressed: () async {
           final navigator = Navigator.of(context); // Lưu trước
             final result = await Navigator.push(
               context,
@@ -354,42 +376,16 @@ class _HomePageState extends State<HomePage> {
               ),
             );
             
-            // ✅ Dùng navigator đã lưu
             if (result != null) {
               navigator.pop(result);
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            decoration: BoxDecoration(
-              color: Color(0xff3782FD),
-              borderRadius: BorderRadius.circular(40),
-              border: Border.all(color: Color(0xff006FFF), width: 1)
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 8,
-              children: [
-                // const Icon(
-                //   Icons.edit,
-                //   // color: Colors.white,
-                //   size: 24,
-                // ),
-                Text(
-                  l10n.addNewQR,
-                  style: TextStyle(
-                    // color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      )
+        icon: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 24,
+        )
+      ),
     );
   }
 
@@ -424,13 +420,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _handleShortcutTap(ShortcutItem shortcut) async {
+  Future<void> _handleShortcutTap(QRItem qr) async {
     showQRActionSheet(
       context: context,
-      shortcut: shortcut,
+      qr: qr,
       onDeleted: () async {
         // Xóa shortcut
-        await StorageService.removeShortcut(shortcut.id);
+        await QRService.removeQR(qr.id);
         // Refresh list
         setState(() {
           // reload shortcuts
@@ -441,7 +437,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EditQRPage(shortcut: shortcut),
+            builder: (context) => EditQRPage(qr: qr),
           ),
         );
       },

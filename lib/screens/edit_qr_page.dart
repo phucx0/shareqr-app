@@ -4,17 +4,18 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:quick_app/l10n/l10n.dart';
 import 'package:quick_app/core/theme/app_theme.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:quick_app/models/qr_enum.dart';
 import 'package:quick_app/services/snackbar_service.dart';
-import 'package:quick_app/services/storage_service.dart';
+import 'package:quick_app/services/qr_service.dart';
 import 'package:quick_app/services/type_service.dart';
 import 'package:quick_app/widgets/pick_item.dart';
-import '../models/shortcut_item.dart';
+import '../models/qr_item.dart';
 
 class EditQRPage extends StatefulWidget {
-  final ShortcutItem shortcut;
+  final QRItem qr;
 
-  const EditQRPage({super.key, required this.shortcut});
+  const EditQRPage({super.key, required this.qr});
 
   @override
   State<EditQRPage> createState() => _EditQRPageState();
@@ -23,19 +24,19 @@ class EditQRPage extends StatefulWidget {
 class _EditQRPageState extends State<EditQRPage> {
   late TextEditingController _controller;
   final ImagePicker _picker = ImagePicker();
-  final BarcodeScanner _barcodeScanner = BarcodeScanner();
+  final MobileScannerController _scannerController = MobileScannerController();
   bool _isScanning = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.shortcut.qrData);
+    _controller = TextEditingController(text: widget.qr.qrData);
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _barcodeScanner.close();
+    _scannerController.dispose();
     super.dispose();
   }
 
@@ -69,7 +70,6 @@ class _EditQRPageState extends State<EditQRPage> {
     );
   }
 
-
   Future<void> _pickAndScanImage() async {
     try {
       // 1. Chọn nguồn ảnh
@@ -85,24 +85,23 @@ class _EditQRPageState extends State<EditQRPage> {
       // 3. Bắt đầu scan
       setState(() => _isScanning = true);
 
-      final inputImage = InputImage.fromFilePath(image.path);
-      final barcodes = await _barcodeScanner.processImage(inputImage);
+      // 4. Scan ảnh bằng mobile_scanner
+      final result = await _scannerController.analyzeImage(image.path);
 
       if (!mounted) return;
 
-      if (barcodes.isEmpty) {
+      if (result == null || result.barcodes.isEmpty) {
         SnackbarService.showMessage(l10n.noQRFoundInImage, context, isError: true);
         return;
       }
 
-      final qrData = barcodes.first.rawValue;
+      final qrData = result.barcodes.first.rawValue;
       if (qrData == null || qrData.isEmpty) {
         SnackbarService.showMessage(l10n.cannotReadQRData, context, isError: true);
         return;
       }
 
       _controller.text = qrData;
-      // _applyAutoDetection(qrData);
       SnackbarService.showMessage(l10n.scanSuccess, context);
     } catch (e) {
       if (mounted) {
@@ -115,10 +114,9 @@ class _EditQRPageState extends State<EditQRPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final type = TypeService.getTypeById(widget.shortcut.typeId);
+    final type = TypeService.getTypeById(widget.qr.type);
 
     return Scaffold(
       backgroundColor: const Color(0xFF0F172A),
@@ -127,21 +125,20 @@ class _EditQRPageState extends State<EditQRPage> {
           children: [
             // Header
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1E293B),
-                        borderRadius: BorderRadius.circular(16),
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
                         Icons.arrow_back,
-                        color: Colors.white,
                         size: 24,
                       ),
                     ),
@@ -151,9 +148,8 @@ class _EditQRPageState extends State<EditQRPage> {
                       l10n.commonEdit,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -177,7 +173,6 @@ class _EditQRPageState extends State<EditQRPage> {
                             borderRadius: BorderRadius.circular(24),
                             boxShadow: [
                               BoxShadow(
-                                // color: widget.shortcut.typeBadgeColor.withOpacity(0.3),
                                 blurRadius: 20,
                                 spreadRadius: 5,
                               ),
@@ -189,7 +184,7 @@ class _EditQRPageState extends State<EditQRPage> {
                                 : _controller.text,
                             version: QrVersions.auto,
                             size: 200.0,
-                            eyeStyle: QrEyeStyle(
+                            eyeStyle: const QrEyeStyle(
                               eyeShape: QrEyeShape.square,
                               color: Colors.black,
                             ),
@@ -215,7 +210,7 @@ class _EditQRPageState extends State<EditQRPage> {
                                 child: SvgPicture.asset(
                                   width: 30,
                                   height: 30,
-                                  widget.shortcut.type!.icon!,
+                                  widget.qr.getType!.icon.toString(),
                                   fit: BoxFit.cover,
                                   colorFilter: const ColorFilter.mode(
                                     Colors.white,
@@ -230,7 +225,7 @@ class _EditQRPageState extends State<EditQRPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    widget.shortcut.title,
+                                    widget.qr.title,
                                     style: const TextStyle(
                                       fontSize: 16,
                                     ),
@@ -295,7 +290,7 @@ class _EditQRPageState extends State<EditQRPage> {
                       TextField(
                         controller: _controller,
                         maxLines: 1,
-                        readOnly: widget.shortcut.appKey.toLowerCase() == "payment",
+                        readOnly: widget.qr.type == QrType.payment,
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: l10n.enterQRName,
@@ -309,7 +304,6 @@ class _EditQRPageState extends State<EditQRPage> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide(
-                              // color: widget.shortcut.typeBadgeColor,
                               width: 2,
                             ),
                           ),
@@ -332,7 +326,7 @@ class _EditQRPageState extends State<EditQRPage> {
           child: ElevatedButton(
             onPressed: () async {
               if (_controller.text.isNotEmpty) {
-                await StorageService.updateQRData(_controller.text, widget.shortcut);
+                await QRService.updateQRData(_controller.text, widget.qr);
                 Navigator.pop(context, _controller.text);
               }
             },

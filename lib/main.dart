@@ -3,32 +3,36 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_app/core/navigation/navigation_key.dart';
 import 'package:quick_app/core/theme/app_theme.dart';
-// import 'package:quick_app/l10n/app_localizations.dart';
 import 'package:quick_app/models/favorite_qr.dart';
-import 'package:quick_app/models/shortcut_item.dart';
-import 'package:quick_app/models/shortcut_type.dart';
+import 'package:quick_app/models/qr_enum.dart';
+import 'package:quick_app/models/qr_item.dart';
+import 'package:quick_app/models/qr_type.dart';
 import 'package:quick_app/services/type_service.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/locale_provider.dart';
-import 'providers/theme_provider.dart'; // Import ThemeProvider
+import 'providers/theme_provider.dart';
 import 'screens/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  print("Khởi tạo APP!");
   await Hive.initFlutter();
 
   // Đăng ký adapter
-  Hive.registerAdapter(ShortcutItemAdapter());
-  Hive.registerAdapter(ShortcutTypeAdapter()); 
+  Hive.registerAdapter(QrTypeModelAdapter());
+  Hive.registerAdapter(QrTypeAdapter());
+  Hive.registerAdapter(QRItemAdapter()); 
   Hive.registerAdapter(FavoriteQRAdapter());
   
   await Hive.openBox('settings');
   // Mở box
-  await Hive.openBox<ShortcutItem>('shortcutsBox');
-  final typeBox = await Hive.openBox<ShortcutType>('shortcutTypesBox');
+  await Hive.openBox<QRItem>('QRsBox');
+  final typeBox = await Hive.openBox<QrTypeModel>('QRTypesBox');
   await Hive.openBox<FavoriteQR>('favoriteQRBox');
-  if (typeBox.isEmpty) {  
+  
+  if (typeBox.isEmpty || typeBox.length != TypeService.getDefaultTypes().length) {  
     TypeService.initType();
+    print('Khởi tạo types');
   }
   
   runApp(
@@ -83,16 +87,6 @@ class AppContent extends StatelessWidget {
           navigatorKey: navigatorKey,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          // localizationsDelegates: const [
-          //   AppLocalizations.delegate,
-          //   GlobalMaterialLocalizations.delegate,
-          //   GlobalWidgetsLocalizations.delegate,
-          //   GlobalCupertinoLocalizations.delegate,
-          // ],
-          // supportedLocales: const [
-          //   Locale('vi'),
-          //   Locale('en'),
-          // ],
           home: const HomePage(),
         );
       },

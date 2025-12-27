@@ -5,17 +5,17 @@ import 'package:quick_app/core/theme/app_theme.dart';
 import 'package:quick_app/l10n/l10n.dart';
 import 'package:quick_app/services/snackbar_service.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:quick_app/models/shortcut_item.dart';
+import 'package:quick_app/models/qr_item.dart';
 import 'package:quick_app/services/favorite_qr_service.dart';
 
 class QRActionBottomSheet extends StatefulWidget {
-  final ShortcutItem shortcut;
+  final QRItem qr;
   final VoidCallback? onDeleted;
   final VoidCallback? onEdited;
 
   const QRActionBottomSheet({
     super.key,
-    required this.shortcut,
+    required this.qr,
     this.onDeleted,
     this.onEdited,
   });
@@ -30,18 +30,18 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
   @override
   void initState() {
     super.initState();
-    isFavorite = FavoriteQRService.isFavorite(widget.shortcut.id);
+    isFavorite = FavoriteQRService.isFavorite(widget.qr.id);
   }
 
   Future<void> _toggleFavorite() async {
     try {
       if (isFavorite) {
-        await FavoriteQRService.deleteFavoriteByShortcutId(widget.shortcut.id);
+        await FavoriteQRService.deleteFavoriteByQRId(widget.qr.id);
       } else {
         await FavoriteQRService.addFavorite(
-          shortcutId: widget.shortcut.id,
-          note: widget.shortcut.description.isNotEmpty 
-              ? widget.shortcut.description 
+          shortcutId: widget.qr.id,
+          note: widget.qr.description.isNotEmpty 
+              ? widget.qr.description 
               : null,
         );
       }
@@ -67,7 +67,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
   }
 
   void _copyToClipboard() {
-    Clipboard.setData(ClipboardData(text: widget.shortcut.qrData));
+    Clipboard.setData(ClipboardData(text: widget.qr.qrData));
 
     SnackbarService.showMessage(
       l10n.copied,
@@ -78,8 +78,8 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
   void _shareQR() {
     // Share QR data as text
     Share.share(
-      widget.shortcut.qrData,
-      subject: widget.shortcut.title,
+      widget.qr.qrData,
+      subject: widget.qr.title,
     );
   }
 
@@ -152,8 +152,8 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
   Widget build(BuildContext context) {
     // final l10n = AppLocalizations.of(context)!;
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF0F172A),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: SafeArea(
@@ -166,7 +166,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.3),
+                color: Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -181,21 +181,20 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.shortcut.title,
+                          widget.qr.title,
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            // color: Colors.white,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          widget.shortcut.type!.getName(context),
+                          widget.qr.getType!.getName(context),
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.white.withOpacity(0.6),
                           ),
                         ),
                       ],
@@ -246,7 +245,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
             // QR Code
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 56),
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -259,9 +258,9 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                 ],
               ),
               child: QrImageView(
-                data: widget.shortcut.qrData,
+                data: widget.qr.qrData,
                 version: QrVersions.auto,
-                size: 200,
+                size: 250,
                 eyeStyle: const QrEyeStyle(
                   eyeShape: QrEyeShape.square,
                   color: Colors.black,
@@ -284,8 +283,9 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                     ),
                   ),
                   Container(
+                    width: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppTheme.dark,
+                      color: Theme.of(context).cardColor,
                       border: Border.all(
                         color: AppTheme.medium,
                         width: 1
@@ -295,7 +295,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                     padding: EdgeInsets.all(16),
                     child: Text(
                       maxLines: 2,
-                      widget.shortcut.qrData,
+                      widget.qr.qrData,
                       style: TextStyle(
                         fontSize: 14,
                       ),
@@ -358,7 +358,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 36),
           ],
         ),
       ),
@@ -396,7 +396,7 @@ class _ActionButton extends StatelessWidget {
               child: Icon(
                 icon,
                 color: color,
-                size: 28,
+                size: 20,
               ),
             ),
           ),
@@ -406,7 +406,7 @@ class _ActionButton extends StatelessWidget {
           label,
           style: const TextStyle(
             fontSize: 12,
-            color: Colors.white,
+            // color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -418,7 +418,7 @@ class _ActionButton extends StatelessWidget {
 // Helper function to show the bottom sheet
 void showQRActionSheet({
   required BuildContext context,
-  required ShortcutItem shortcut,
+  required QRItem qr,
   VoidCallback? onDeleted,
   VoidCallback? onEdited,
 }) {
@@ -427,7 +427,7 @@ void showQRActionSheet({
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
     builder: (context) => QRActionBottomSheet(
-      shortcut: shortcut,
+      qr: qr,
       onDeleted: onDeleted,
       onEdited: onEdited,
     ),

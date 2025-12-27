@@ -30,20 +30,19 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             // Header
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: Row(
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1E293B),
-                        borderRadius: BorderRadius.circular(16),
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
                         Icons.arrow_back,
-                        // color: Colors.white,
                         size: 24,
                       ),
                     ),
@@ -53,9 +52,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       l10n.settingTitle,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        // color: Colors.white,
                       ),
                     ),
                   ),
@@ -76,14 +74,14 @@ class _SettingsPageState extends State<SettingsPage> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFF60A5FA),
+                        // color: Color(0xFF60A5FA),
                         letterSpacing: 1.2,
                       ),
                     ),
                     const SizedBox(height: 16),
                     Container(
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1E293B),
+                        color: Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Column(
@@ -154,7 +152,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             child: Icon(
               icon,
-              color: Colors.white70,
+              color: Colors.white,
               size: 24,
             ),
           ),
@@ -168,7 +166,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -176,7 +173,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   subtitle,
                   style: TextStyle(
                     fontSize: 13,
-                    color: Colors.white.withOpacity(0.5),
                   ),
                 ),
               ],
@@ -216,7 +212,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               child: Icon(
                 icon,
-                color: Colors.white70,
+                color: Colors.white,
                 size: 24,
               ),
             ),
@@ -228,7 +224,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   Text(
                     title,
                     style: const TextStyle(
-                      color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -237,7 +232,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   Text(
                     subtitle,
                     style: const TextStyle(
-                      color: Colors.white60,
                       fontSize: 14,
                     ),
                   ),
@@ -246,7 +240,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const Icon(
               Icons.chevron_right,
-              color: Colors.white38,
+              // color: Colors.white38,
             ),
           ],
         ),

@@ -1,6 +1,6 @@
 // models/favorite_qr.dart
 import 'package:hive/hive.dart';
-import 'package:quick_app/models/shortcut_item.dart';
+import 'package:quick_app/models/qr_item.dart';
 
 part 'favorite_qr.g.dart';
 
@@ -10,7 +10,7 @@ class FavoriteQR extends HiveObject {
   String id; // ID của favorite (auto-generated)
 
   @HiveField(1)
-  String shortcutId; // Reference đến ShortcutItem
+  String qrId; // Reference đến ShortcutItem
 
   @HiveField(2)
   DateTime createdAt;
@@ -26,7 +26,7 @@ class FavoriteQR extends HiveObject {
 
   FavoriteQR({
     required this.id,
-    required this.shortcutId,
+    required this.qrId,
     required this.createdAt,
     this.lastUsedAt,
     this.usageCount = 0,
@@ -36,7 +36,7 @@ class FavoriteQR extends HiveObject {
   // Copy with method
   FavoriteQR copyWith({
     String? id,
-    String? shortcutId,
+    String? qrId,
     DateTime? createdAt,
     DateTime? lastUsedAt,
     int? usageCount,
@@ -44,7 +44,7 @@ class FavoriteQR extends HiveObject {
   }) {
     return FavoriteQR(
       id: id ?? this.id,
-      shortcutId: shortcutId ?? this.shortcutId,
+      qrId: qrId ?? this.qrId,
       createdAt: createdAt ?? this.createdAt,
       lastUsedAt: lastUsedAt ?? this.lastUsedAt,
       usageCount: usageCount ?? this.usageCount,
@@ -53,16 +53,16 @@ class FavoriteQR extends HiveObject {
   }
 
   // Helper method để lấy ShortcutItem
-  ShortcutItem? getShortcut() {
-    final box = Hive.box<ShortcutItem>('shortcutsBox');
-    return box.get(shortcutId);
+  QRItem? getQR() {
+    final box = Hive.box<QRItem>('QRsBox');
+    return box.get(qrId);
   }
 
   // To Map
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'shortcutId': shortcutId,
+      'qrId': qrId,
       'createdAt': createdAt.toIso8601String(),
       'lastUsedAt': lastUsedAt?.toIso8601String(),
       'usageCount': usageCount,
@@ -74,7 +74,7 @@ class FavoriteQR extends HiveObject {
   factory FavoriteQR.fromMap(Map<String, dynamic> map) {
     return FavoriteQR(
       id: map['id'],
-      shortcutId: map['shortcutId'],
+      qrId: map['qrId'],
       createdAt: DateTime.parse(map['createdAt']),
       lastUsedAt: map['lastUsedAt'] != null 
           ? DateTime.parse(map['lastUsedAt']) 

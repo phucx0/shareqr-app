@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ShortcutSearchBar extends StatefulWidget {
+class QRSearchBar extends StatefulWidget {
   final Function(String) onSubmit; 
 
-  const ShortcutSearchBar({
+  const QRSearchBar({
     Key? key,
     required this.onSubmit,
   }) : super(key: key);
 
   @override
-  State<ShortcutSearchBar> createState() => _ShortcutSearchBarState();
+  State<QRSearchBar> createState() => _QRSearchBarState();
 }
 
-class _ShortcutSearchBarState extends State<ShortcutSearchBar> {
+class _QRSearchBarState extends State<QRSearchBar> {
   final TextEditingController _controller = TextEditingController();
 
   @override

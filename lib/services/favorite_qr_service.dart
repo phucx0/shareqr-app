@@ -1,18 +1,18 @@
 // services/favorite_qr_service.dart
 import 'package:hive/hive.dart';
 import 'package:quick_app/models/favorite_qr.dart';
-import 'package:quick_app/models/shortcut_item.dart';
+import 'package:quick_app/models/qr_item.dart';
 
 class FavoriteQRService {
   static const String _boxName = 'favoriteQRBox';
 
   // Get box
   static Box<FavoriteQR> get _box => Hive.box<FavoriteQR>(_boxName);
-  static Box<ShortcutItem> get _shortcutBox => Hive.box<ShortcutItem>('shortcutsBox');
+  static Box<QRItem> get _shortcutBox => Hive.box<QRItem>('QRsBox');
 
-  static List<ShortcutItem> getFavoriteShortcuts() {
-    return getAllFavoritesWithShortcuts()
-        .map((item) => item['shortcut'] as ShortcutItem)
+  static List<QRItem> getFavoriteShortcuts() {
+    return getAllFavoritesWithQRs()
+        .map((item) => item['shortcut'] as QRItem)
         .toList();
   }
 
@@ -37,7 +37,7 @@ class FavoriteQRService {
       final id = DateTime.now().millisecondsSinceEpoch.toString();
       final favorite = FavoriteQR(
         id: id,
-        shortcutId: shortcutId,
+        qrId: shortcutId,
         createdAt: DateTime.now(),
         note: note,
       );
@@ -55,9 +55,9 @@ class FavoriteQRService {
   }
 
   // READ - Lấy tất cả favorites kèm ShortcutItem (chỉ những shortcut còn tồn tại)
-  static List<Map<String, dynamic>> getAllFavoritesWithShortcuts() {
+  static List<Map<String, dynamic>> getAllFavoritesWithQRs() {
     return _box.values.map((fav) {
-      final shortcut = fav.getShortcut();
+      final shortcut = fav.getQR();
       return {
         'favorite': fav,
         'shortcut': shortcut,
@@ -74,7 +74,7 @@ class FavoriteQRService {
   static FavoriteQR? getFavoriteByShortcutId(String shortcutId) {
     try {
       return _box.values.firstWhere(
-        (fav) => fav.shortcutId == shortcutId,
+        (fav) => fav.qrId == shortcutId,
       );
     } catch (e) {
       return null;
@@ -83,7 +83,7 @@ class FavoriteQRService {
 
   // READ - Lấy favorites được dùng nhiều nhất
   static List<Map<String, dynamic>> getMostUsedFavorites({int limit = 10}) {
-    final favoritesWithShortcuts = getAllFavoritesWithShortcuts();
+    final favoritesWithShortcuts = getAllFavoritesWithQRs();
     favoritesWithShortcuts.sort((a, b) {
       final favA = a['favorite'] as FavoriteQR;
       final favB = b['favorite'] as FavoriteQR;
@@ -94,7 +94,7 @@ class FavoriteQRService {
 
   // READ - Lấy favorites gần đây
   static List<Map<String, dynamic>> getRecentFavorites({int limit = 10}) {
-    final favoritesWithShortcuts = getAllFavoritesWithShortcuts();
+    final favoritesWithShortcuts = getAllFavoritesWithQRs();
     favoritesWithShortcuts.sort((a, b) {
       final favA = a['favorite'] as FavoriteQR;
       final favB = b['favorite'] as FavoriteQR;
@@ -150,7 +150,7 @@ class FavoriteQRService {
   }
 
   // DELETE - Xóa favorite theo shortcutId
-  static Future<bool> deleteFavoriteByShortcutId(String shortcutId) async {
+  static Future<bool> deleteFavoriteByQRId(String shortcutId) async {
     try {
       final favorite = getFavoriteByShortcutId(shortcutId);
       if (favorite == null) return false;
@@ -177,7 +177,7 @@ class FavoriteQRService {
     final toDelete = <String>[];
     
     for (var fav in _box.values) {
-      final shortcut = fav.getShortcut();
+      final shortcut = fav.getQR();
       if (shortcut == null) {
         toDelete.add(fav.id);
       }
@@ -192,16 +192,16 @@ class FavoriteQRService {
 
   // UTILITY - Kiểm tra shortcut đã được yêu thích chưa
   static bool isFavorite(String shortcutId) {
-    return _box.values.any((fav) => fav.shortcutId == shortcutId);
+    return _box.values.any((fav) => fav.qrId == shortcutId);
   }
 
   // UTILITY - Tìm kiếm favorites
   static List<Map<String, dynamic>> searchFavorites(String query) {
     final lowercaseQuery = query.toLowerCase();
     
-    return getAllFavoritesWithShortcuts().where((item) {
+    return getAllFavoritesWithQRs().where((item) {
       final fav = item['favorite'] as FavoriteQR;
-      final shortcut = item['shortcut'] as ShortcutItem?;
+      final shortcut = item['shortcut'] as QRItem?;
       
       if (shortcut == null) return false;
       
@@ -221,8 +221,8 @@ class FavoriteQRService {
   static Map<String, int> getCountByType() {
     final countMap = <String, int>{};
     
-    for (var item in getAllFavoritesWithShortcuts()) {
-      final shortcut = item['shortcut'] as ShortcutItem;
+    for (var item in getAllFavoritesWithQRs()) {
+      final shortcut = item['shortcut'] as QRItem;
       final typeName = shortcut.typeName;
       countMap[typeName] = (countMap[typeName] ?? 0) + 1;
     }
@@ -242,7 +242,7 @@ class FavoriteQRService {
     for (var item in data) {
       final favorite = FavoriteQR.fromMap(item);
       // Verify shortcut exists before importing
-      if (_shortcutBox.get(favorite.shortcutId) != null) {
+      if (_shortcutBox.get(favorite.qrId) != null) {
         await _box.put(favorite.id, favorite);
         imported++;
       }

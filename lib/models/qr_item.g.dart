@@ -1,28 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'shortcut_item.dart';
+part of 'qr_item.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ShortcutItemAdapter extends TypeAdapter<ShortcutItem> {
+class QRItemAdapter extends TypeAdapter<QRItem> {
   @override
   final int typeId = 0;
 
   @override
-  ShortcutItem read(BinaryReader reader) {
+  QRItem read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ShortcutItem(
+    return QRItem(
       id: fields[0] as String,
       title: fields[1] as String,
       colorValue: fields[2] as int,
       qrData: fields[5] as String,
       position: fields[7] as int,
-      typeId: fields[8] as String,
+      type: fields[8] as QrType,
       appKey: fields[3] as String,
       isVisible: fields[6] as bool,
       iconPath: fields[4] as String?,
@@ -31,7 +31,7 @@ class ShortcutItemAdapter extends TypeAdapter<ShortcutItem> {
   }
 
   @override
-  void write(BinaryWriter writer, ShortcutItem obj) {
+  void write(BinaryWriter writer, QRItem obj) {
     writer
       ..writeByte(10)
       ..writeByte(0)
@@ -51,7 +51,7 @@ class ShortcutItemAdapter extends TypeAdapter<ShortcutItem> {
       ..writeByte(7)
       ..write(obj.position)
       ..writeByte(8)
-      ..write(obj.typeId)
+      ..write(obj.type)
       ..writeByte(9)
       ..write(obj.description);
   }
@@ -62,7 +62,7 @@ class ShortcutItemAdapter extends TypeAdapter<ShortcutItem> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ShortcutItemAdapter &&
+      other is QRItemAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

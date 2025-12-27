@@ -115,7 +115,7 @@ class AppTheme {
   // Light Theme
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    scaffoldBackgroundColor: white,
+    scaffoldBackgroundColor: Color.fromARGB(255, 244, 244, 247),
     primaryColor: primaryOrange,
     colorScheme: const ColorScheme.light(
       primary: primaryOrange,

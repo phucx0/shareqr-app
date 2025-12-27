@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:quick_app/models/shortcut_item.dart';
+import 'package:quick_app/models/qr_item.dart';
 import 'package:quick_app/screens/edit_qr_page.dart';
-import 'package:quick_app/services/storage_service.dart';
+import 'package:quick_app/services/qr_service.dart';
 import 'package:quick_app/widgets/qr_action_bottom_sheet.dart';
 
 class FavoriteQr extends StatelessWidget {
-  final ShortcutItem shortcut;
+  final QRItem qr;
+  final double scale; 
   const FavoriteQr ({
     super.key,
-    required this.shortcut
+    required this.qr,
+    this.scale = 1.0
   });
 
   Future<void> handleTap(BuildContext context) async {
     showQRActionSheet(
       context: context,
-      shortcut: shortcut,
+      qr: qr,
       onDeleted: () async {
-        // Xóa shortcut
-        await StorageService.removeShortcut(shortcut.id);
+        // Xóa qr
+        await QRService.removeQR(qr.id);
         // Refresh list
       },
       onEdited: () {
@@ -26,7 +28,7 @@ class FavoriteQr extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EditQRPage(shortcut: shortcut),
+            builder: (context) => EditQRPage(qr: qr),
           ),
         );
       },
@@ -35,52 +37,53 @@ class FavoriteQr extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => handleTap(context),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        decoration: BoxDecoration(
-          color: Color(0xff1E293B),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: Color(0xff283447),
-            width: 1
+    return Transform.scale(
+      scale: scale,
+      child: GestureDetector(
+        onTap: () => handleTap(context),
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 0),
+          padding: EdgeInsets.only(
+            left: 16, right: 16, top: 16, bottom: 8
+          ),
+          decoration: BoxDecoration(
+            color: Color(0xFF0F172A),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.all(0),
+                child: QrImageView(
+                  data: qr.qrData,
+                  version: QrVersions.auto,
+                  size: 100, // Fixed size
+                  eyeStyle: QrEyeStyle(
+                    eyeShape: QrEyeShape.square,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                qr.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+              ),
+            ],
           ),
         ),
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  color: Color(0xff283447)
-                
-                ),
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.white,
-              ),
-              child: QrImageView(
-                data: shortcut.qrData,
-                version: QrVersions.auto,
-                size: 100.0,
-                eyeStyle: QrEyeStyle(
-                  eyeShape: QrEyeShape.square,
-                  color: const Color.fromARGB(255, 0, 0, 0),
-                ),
-              ),
-            ),
-            SizedBox(height: 8,),
-            Text(shortcut.title,
-              maxLines: 1,
-              style: TextStyle(
-                color: Colors.white,
-                height: 1,
-                fontWeight: FontWeight.w600
-              ),
-            ),
-          ],
-        ),
-      )
+      ),
     );
   }
 }

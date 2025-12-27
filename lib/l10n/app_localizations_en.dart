@@ -51,6 +51,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonHello => 'Hello';
 
   @override
+  String get scan_qr => 'Scan QR code';
+
+  @override
+  String get place_qr_in_frame => 'Place the QR code inside the frame to scan';
+
+  @override
   String get contentQR => 'QR Content';
 
   @override
@@ -60,7 +66,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterQRName => 'Enter QR name';
 
   @override
-  String get pasteOrLink => 'Paste QR content or link';
+  String get enterQRContent => 'Enter QR content';
 
   @override
   String get warningContentQR => 'For payments, please scan from QR image';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_app/l10n/app_localizations.dart';
+import 'package:quick_app/l10n/l10n.dart';
 import 'package:quick_app/providers/locale_provider.dart';
 import 'package:quick_app/providers/theme_provider.dart';
 
@@ -22,7 +22,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       // backgroundColor: AppTheme.lightTheme,
@@ -125,44 +124,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 32),
-
-                    // App Info
-                    Center(
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF3B82F6),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.flash_on,
-                              color: Colors.white,
-                              size: 32,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          const Text(
-                            'ShareQR v1.0.0',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Made with speed in mind',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white.withOpacity(0.6),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     const SizedBox(height: 32),
                   ],
                 ),
@@ -295,7 +256,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _showLanguageDialog(BuildContext context) {
     final currentLocale = context.read<LocaleProvider>().locale.languageCode;
-    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {

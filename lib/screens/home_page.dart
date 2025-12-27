@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:quick_app/core/theme/app_theme.dart';
+import 'package:quick_app/l10n/l10n.dart';
 import 'package:quick_app/models/favorite_qr.dart';
 import 'package:quick_app/models/qr_type.dart';
 import 'package:quick_app/screens/add_qr_page.dart';
@@ -377,7 +378,7 @@ class _HomePageState extends State<HomePage> {
                 //   size: 24,
                 // ),
                 Text(
-                  "Tạo QR mới",
+                  l10n.addNewQR,
                   style: TextStyle(
                     // color: Colors.white,
                     fontSize: 16,

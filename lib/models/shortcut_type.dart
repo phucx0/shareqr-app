@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:quick_app/l10n/app_localizations.dart';
+import 'package:quick_app/l10n/l10n.dart';
 part 'shortcut_type.g.dart';
 
 @HiveType(typeId: 1)
@@ -26,7 +27,6 @@ class ShortcutType extends HiveObject {
 
   // Getter để lấy translated name
   String getName(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     switch (name.toLowerCase()) {
       case 'payment':
         return l10n.filterPayment;

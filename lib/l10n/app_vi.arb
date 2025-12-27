@@ -3,15 +3,37 @@
 
   "commonAll": "Tất cả",
   "commonCopy": "Sao chép",
-  "commonEdit": "Chỉnh sửa",
   "commonFavorite": "Yêu thích",
   "commonShare": "Chia sẻ",
-  "commonSave": "Lưu",
+  "commonEdit": "Chỉnh sửa",
   "commonDelete": "Xóa",
+  "commonSave": "Lưu",
   "commonPreview": "Xem trước",
   "commonVisible": "Hiện",
   "commonHidden": "Ẩn",
   "commonSaveChanges": "Lưu thay đổi",
+  "commonQuickAction": "Thao tác nhanh",
+  "commonHello": "Xin chào",
+
+  "scan_qr": "Quét mã QR",
+  "place_qr_in_frame": "Đưa mã QR vào trong khung để quét",
+
+  "contentQR": "Nội dung QR",
+  "nameQR": "Tên QR",
+  "enterQRName": "Nhập tên QR",
+  "enterQRContent": "Nhập nội dung",
+  "warningContentQR": "Với mã thanh toán, vui lòng quét từ ảnh QR",
+  "addNewQR": "Thêm mã QR",
+  "noFavoriteQR": "Chưa có mã QR yêu thích",
+
+  "clipboardPasted": "Đã dán từ clipboard",
+  "pleaseEnterQRName": "Vui lòng nhập tên QR",
+  "pleaseEnterQRContent": "Vui lòng nhập mã QR",
+  "pleaseSelectPlatform": "Vui lòng chọn nền tảng",
+
+  "autoDetect": "Tự động",
+  "scanning": "Đang quét...",
+  "fromImage": "Từ ảnh",
 
   "filterBank": "Ngân hàng",
   "filterSocial": "Mạng xã hội",
@@ -23,7 +45,7 @@
 
   "shortcutTitle": "Phím tắt",
   "shortcutEditReorder": "Sửa & sắp xếp",
-  "shortcutInstruction": "Nhấn giữ để sắp xếp. Nhấn vào biểu tượng mắt để ẩn/hiện.",
+  "shortcutInstruction": "Nhấn giữ để sắp xếp. Nhấn biểu tượng mắt để ẩn/hiện.",
   "shortcutHiddenTitle": "Phím tắt đã ẩn",
 
   "shortcutSocialDescription": "Mạng xã hội & liên hệ",
@@ -39,12 +61,13 @@
   "settingBiometricLock": "Khóa sinh trắc học",
   "settingBiometricLockSubtitle": "Bảo mật ứng dụng",
   "settingLanguage": "Ngôn ngữ",
+  "selectPlatform": "Chọn nền tảng",
   "settingSelectLanguage": "Chọn ngôn ngữ",
+
   "@settingSelectLanguage": {
     "description": "Nhãn chọn ngôn ngữ ứng dụng"
   },
 
-  "commonHello": "Xin chào",
   "welcomeMessage": "Chào mừng đến với ứng dụng của tôi",
   "greetingMessage": "Xin chào {name}!",
   "@greetingMessage": {
@@ -55,5 +78,18 @@
         "example": "Phúc"
       }
     }
-  }
+  },
+  "scanImageError": "Lỗi khi quét ảnh",
+  "scanSuccess": "Đã quét thành công",
+  "cannotReadQRData": "Không thể đọc dữ liệu QR",
+  "noQRFoundInImage": "Không tìm thấy mã QR trong ảnh",
+  "imageGallery": "Thư viện ảnh",
+  "takePhoto": "Chụp ảnh",
+  "addToFavorites": "Thêm QR vào yêu thích",
+  "qrDeletePermanent": "QR này sẽ bị xóa vĩnh viễn.\nBạn có chắc không?",
+  "deleteQrTitle": "Xóa QR Code?",
+  "cancel": "Hủy",
+  "copied": "Đã sao chép",
+  "addedToFavorites": "Đã thêm vào yêu thích",
+  "removedFromFavorites": "Đã xóa khỏi yêu thích"
 }

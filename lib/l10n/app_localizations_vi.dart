@@ -45,6 +45,54 @@ class AppLocalizationsVi extends AppLocalizations {
   String get commonSaveChanges => 'Lưu thay đổi';
 
   @override
+  String get commonQuickAction => 'Thao tác nhanh';
+
+  @override
+  String get commonHello => 'Xin chào';
+
+  @override
+  String get contentQR => 'Nội dung QR';
+
+  @override
+  String get nameQR => 'Tên QR';
+
+  @override
+  String get enterQRName => 'Vui lòng nhập tên QR';
+
+  @override
+  String get pasteOrLink => 'Dán nội dung QR hoặc liên kết';
+
+  @override
+  String get warningContentQR => 'Với mã thanh toán, vui lòng quét từ ảnh QR';
+
+  @override
+  String get addNewQR => 'Thêm mã QR';
+
+  @override
+  String get noFavoriteQR => 'Chưa có mã QR yêu thích';
+
+  @override
+  String get clipboardPasted => 'Đã dán từ clipboard';
+
+  @override
+  String get pleaseEnterQRName => 'Vui lòng nhập tên QR';
+
+  @override
+  String get pleaseEnterQRContent => 'Vui lòng nhập mã QR';
+
+  @override
+  String get pleaseSelectPlatform => 'Vui lòng chọn nền tảng';
+
+  @override
+  String get autoDetect => 'Tự động';
+
+  @override
+  String get scanning => 'Đang quét...';
+
+  @override
+  String get fromImage => 'Từ ảnh';
+
+  @override
   String get filterBank => 'Ngân hàng';
 
   @override
@@ -73,7 +121,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get shortcutInstruction =>
-      'Nhấn giữ để sắp xếp. Nhấn vào biểu tượng mắt để ẩn/hiện.';
+      'Nhấn giữ để sắp xếp. Nhấn biểu tượng mắt để ẩn/hiện.';
 
   @override
   String get shortcutHiddenTitle => 'Phím tắt đã ẩn';
@@ -115,6 +163,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get settingLanguage => 'Ngôn ngữ';
 
   @override
+  String get selectPlatform => 'Chọn nền tảng';
+
+  @override
   String get settingSelectLanguage => 'Chọn ngôn ngữ';
 
   @override
@@ -124,4 +175,44 @@ class AppLocalizationsVi extends AppLocalizations {
   String greetingMessage(String name) {
     return 'Xin chào $name!';
   }
+
+  @override
+  String get scanImageError => 'Lỗi khi quét ảnh';
+
+  @override
+  String get scanSuccess => 'Đã quét thành công';
+
+  @override
+  String get cannotReadQRData => 'Không thể đọc dữ liệu QR';
+
+  @override
+  String get noQRFoundInImage => 'Không tìm thấy mã QR trong ảnh';
+
+  @override
+  String get imageGallery => 'Thư viện ảnh';
+
+  @override
+  String get takePhoto => 'Chụp ảnh';
+
+  @override
+  String get addToFavorites => 'Thêm QR vào yêu thích';
+
+  @override
+  String get qrDeletePermanent =>
+      'QR này sẽ bị xóa vĩnh viễn.\nBạn có chắc không?';
+
+  @override
+  String get deleteQrTitle => 'Xóa QR Code?';
+
+  @override
+  String get cancel => 'Hủy';
+
+  @override
+  String get copied => 'Đã sao chép';
+
+  @override
+  String get addedToFavorites => 'Đã thêm vào yêu thích';
+
+  @override
+  String get removedFromFavorites => 'Đã xóa khỏi yêu thích';
 }

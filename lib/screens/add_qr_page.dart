@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:quick_app/l10n/l10n.dart';
 import 'package:quick_app/models/shortcut_item.dart';
 import 'package:quick_app/services/snackbar_service.dart';
 import 'package:quick_app/services/storage_service.dart';
@@ -148,13 +149,12 @@ class _AddQRScreenState extends State<AddQRScreen> {
     });
     
     // Show notification
-    _showMessage('Đã tự động phát hiện: ${matchedPlatform.getName(context)}');
+    // _showMessage('Đã tự động phát hiện: ${matchedPlatform.getName(context)}');
   }
 
   @override
   Widget build(BuildContext context) {
     final isBankType = TypeService.getTypeById(selectedPlatform!).name.toLowerCase() == "payment";
-    
     return Scaffold(
       backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
@@ -164,8 +164,8 @@ class _AddQRScreenState extends State<AddQRScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Tạo QR',
+        title: Text(
+          'QR',
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -176,8 +176,8 @@ class _AddQRScreenState extends State<AddQRScreen> {
         actions: [
           TextButton(
             onPressed: _handleSave,
-            child: const Text(
-              'Lưu',
+            child: Text(
+              l10n.commonSave,
               style: TextStyle(
                 color: Color(0xFF3782FD),
                 fontSize: 16,
@@ -225,8 +225,8 @@ class _AddQRScreenState extends State<AddQRScreen> {
               const SizedBox(height: 32),
               
               // Tên phím tắt
-              const Text(
-                'Tên mã QR',
+              Text(
+                l10n.nameQR,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -237,7 +237,7 @@ class _AddQRScreenState extends State<AddQRScreen> {
                 controller: _nameController,
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  hintText: 'Đặt tên',
+                  hintText: l10n.enterQRName,
                 ),
               ),
               const SizedBox(height: 24),
@@ -245,8 +245,8 @@ class _AddQRScreenState extends State<AddQRScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Mã QR',
+                  Text(
+                    l10n.contentQR,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -266,7 +266,7 @@ class _AddQRScreenState extends State<AddQRScreen> {
                             ),
                           )
                         : const Icon(Icons.image, size: 14),
-                    label: Text(_isScanning ? 'Đang quét...' : 'Từ ảnh', 
+                    label: Text(_isScanning ? l10n.scanning : l10n.fromImage, 
                       style: TextStyle(
                         fontSize: 14
                       ),
@@ -296,7 +296,7 @@ class _AddQRScreenState extends State<AddQRScreen> {
                   }
                 },
                 decoration: InputDecoration(
-                  hintText: 'Dán mã QR hoặc link',
+                  hintText: l10n.pasteOrLink,
                   suffixIcon: IconButton(
                     icon: Icon(Icons.content_paste, color: Colors.white54, size: 20),
                     onPressed: _pasteFromClipboard,
@@ -311,7 +311,7 @@ class _AddQRScreenState extends State<AddQRScreen> {
                     SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'Với QR thanh toán, vui lòng tải ảnh QR lên',
+                        l10n.warningContentQR,
                         style: TextStyle(
                           color: Colors.orange,
                           fontSize: 13,
@@ -327,8 +327,8 @@ class _AddQRScreenState extends State<AddQRScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Chọn nền tảng',
+                  Text(
+                    l10n.selectPlatform,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -347,7 +347,7 @@ class _AddQRScreenState extends State<AddQRScreen> {
                           Icon(Icons.auto_awesome, size: 14, color: Color(0xFF10B981)),
                           SizedBox(width: 4),
                           Text(
-                            'Tự động',
+                            l10n.autoDetect,
                             style: TextStyle(
                               color: Color(0xFF10B981),
                               fontSize: 12,
@@ -436,23 +436,23 @@ class _AddQRScreenState extends State<AddQRScreen> {
         _qrCodeController.text = clipboardData.text!;
       });
       _applyAutoDetection(clipboardData.text!);
-      _showMessage('Đã dán từ clipboard');
+      // _showMessage('Đã dán từ clipboard');
     }
   }
 
   Future<void> _handleSave() async {
     if (_nameController.text.isEmpty) {
-      SnackbarService.showMessage('Vui lòng nhập tên QR', context);
+      SnackbarService.showMessage(l10n.pleaseEnterQRName, context, isError: true);
       return;
     }
     
     if (_qrCodeController.text.isEmpty) {
-      SnackbarService.showMessage('Vui lòng nhập mã QR', context);
+      SnackbarService.showMessage(l10n.pleaseEnterQRContent, context, isError: true);
       return;
     }
 
     if (selectedPlatform == null) {
-      SnackbarService.showMessage('Vui lòng chọn nền tảng', context);
+      SnackbarService.showMessage(l10n.pleaseSelectPlatform, context, isError: true);
       return;
     }
 
@@ -486,12 +486,12 @@ class _AddQRScreenState extends State<AddQRScreen> {
             children: [
               PickItem(
                 icon: Icons.photo_library,
-                label: 'Thư viện ảnh',
+                label: l10n.imageGallery,
                 onTap: () => Navigator.pop(context, ImageSource.gallery),
               ),
               PickItem(
                 icon: Icons.camera_alt,
-                label: 'Chụp ảnh',
+                label: l10n.takePhoto,
                 onTap: () => Navigator.pop(context, ImageSource.camera),
               ),
               const SizedBox(height: 8),
@@ -524,22 +524,22 @@ class _AddQRScreenState extends State<AddQRScreen> {
       if (!mounted) return;
 
       if (barcodes.isEmpty) {
-        _showMessage('Không tìm thấy mã QR trong ảnh', isError: true);
+        _showMessage(l10n.noQRFoundInImage, isError: true);
         return;
       }
 
       final qrData = barcodes.first.rawValue;
       if (qrData == null || qrData.isEmpty) {
-        _showMessage('Không thể đọc dữ liệu QR', isError: true);
+        _showMessage(l10n.cannotReadQRData, isError: true);
         return;
       }
 
       _qrCodeController.text = qrData;
       _applyAutoDetection(qrData);
-      _showMessage('Đã quét thành công!');
+      _showMessage(l10n.scanSuccess);
     } catch (e) {
       if (mounted) {
-        _showMessage('Lỗi khi quét ảnh', isError: true);
+        _showMessage(l10n.scanImageError, isError: true);
       }
     } finally {
       if (mounted) {

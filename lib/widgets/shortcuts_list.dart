@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_app/constants/system_app_icons.dart';
-import 'package:quick_app/l10n/app_localizations.dart';
+import 'package:quick_app/l10n/l10n.dart';
 import 'package:quick_app/services/type_service.dart';
 import '../models/shortcut_item.dart';
 
@@ -17,7 +17,6 @@ class ShortcutListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final type = TypeService.getTypeById(shortcut.typeId);
     return Container(
       margin: const EdgeInsets.only(bottom: 12),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:quick_app/core/theme/app_theme.dart';
-import 'package:quick_app/l10n/app_localizations.dart';
+import 'package:quick_app/l10n/l10n.dart';
 import 'package:quick_app/services/snackbar_service.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:quick_app/models/shortcut_item.dart';
@@ -53,15 +53,15 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
       if (mounted) {
         HapticFeedback.lightImpact();
         SnackbarService.showMessage(
-          isFavorite ? 'Đã thêm vào yêu thích' : 'Đã xóa khỏi yêu thích', 
+          isFavorite ? l10n.addedToFavorites : l10n.removedFromFavorites, 
           context
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Lỗi: ${e.toString()}')),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(content: Text('Lỗi: ${e.toString()}')),
+        // );
       }
     }
   }
@@ -70,7 +70,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
     Clipboard.setData(ClipboardData(text: widget.shortcut.qrData));
 
     SnackbarService.showMessage(
-      'Đã sao chép',
+      l10n.copied,
       context
     );
   }
@@ -96,12 +96,12 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
           borderRadius: BorderRadius.circular(20),
         ),
         backgroundColor: const Color(0xFF1E293B),
-        title: const Row(
+        title: Row(
           children: [
             Icon(Icons.delete_outline, color: Colors.redAccent),
             SizedBox(width: 8),
             Text(
-              'Xóa QR Code?',
+              l10n.deleteQrTitle,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 18,
@@ -110,8 +110,8 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
             ),
           ],
         ),
-        content: const Text(
-          'QR này sẽ bị xóa vĩnh viễn.\nBạn có chắc không?',
+        content: Text(
+          l10n.qrDeletePermanent,
           style: TextStyle(color: Colors.white70),
         ),
         actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -125,7 +125,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            child: const Text('Hủy'),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
@@ -136,7 +136,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            child: const Text('Xóa'),
+            child: Text(l10n.commonDelete),
           ),
         ],
       ),
@@ -150,7 +150,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    // final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xFF0F172A),
@@ -277,7 +277,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                 spacing: 12,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Nội dung QR",
+                  Text(l10n.contentQR,
                     style: TextStyle( 
                       fontSize: 16,
                       fontWeight: FontWeight.w600
@@ -308,12 +308,12 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
             const SizedBox(height: 24),
 
             // Quick Actions Title
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Thao tác nhanh',
+                  l10n.commonQuickAction,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

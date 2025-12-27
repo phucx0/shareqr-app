@@ -1,58 +1,95 @@
 {
-    "appSlogan": "Lightning fast, every second counts",
+  "appSlogan": "Lightning fast, every second counts",
 
-    "commonAll": "All",
-    "commonCopy": "Copy",
-    "commonFavorite": "Favorites",
-    "commonShare": "Share",
-    "commonEdit": "Edit",
-    "commonDelete": "Delete",
-    "commonSave": "Save",
-    "commonPreview": "Preview",
-    "commonVisible": "Visible",
-    "commonHidden": "Hidden",
-    "commonSaveChanges": "Save Changes",
+  "commonAll": "All",
+  "commonCopy": "Copy",
+  "commonFavorite": "Favorites",
+  "commonShare": "Share",
+  "commonEdit": "Edit",
+  "commonDelete": "Delete",
+  "commonSave": "Save",
+  "commonPreview": "Preview",
+  "commonVisible": "Visible",
+  "commonHidden": "Hidden",
+  "commonSaveChanges": "Save Changes",
+  "commonQuickAction": "Quick actions",
+  "commonHello": "Hello",
 
-    "filterBank": "Bank",
-    "filterSocial": "Social",
-    "filterPayment": "Payment",
-    "filterCrypto": "Crypto",
-    "filterPhone": "Phone",
-    "filterLink": "Link",
-    "filterMessenger": "Messenger",
+  "scan_qr": "Scan QR code",
+  "place_qr_in_frame": "Place the QR code inside the frame to scan",
 
-    "shortcutTitle": "Shortcuts",
-    "shortcutEditReorder": "Edit & Reorder",
-    "shortcutInstruction": "Long press to reorder. Tap the eye icon to hide/show.",
-    "shortcutHiddenTitle": "Hidden shortcuts",
+  "contentQR": "QR Content",
+  "nameQR": "QR Name",
+  "enterQRName": "Enter QR name",
+  "enterQRContent": "Enter QR content",
+  "warningContentQR": "For payments, please scan from QR image",
+  "addNewQR": "Add new QR",
+  "noFavoriteQR": "No favorite QR codes saved",
 
-    "shortcutSocialDescription": "Social media profiles & contacts",
-    "shortcutPaymentDescription": "Payment & financial services",
-    "shortcutLinkDescription": "Website links & URLs",
+  "clipboardPasted": "Pasted from clipboard",
+  "pleaseEnterQRName": "Please enter QR name",
+  "pleaseEnterQRContent": "Please enter QR content",
+  "pleaseSelectPlatform": "Please select platform",
 
-    "settingTitle": "Settings",
-    "settingGeneral": "General",
-    "settingContent": "Content",
-    "settingData": "Data",
-    "settingDarkMode": "Dark Mode",
-    "settingDarkModeSubtitle": "Reduce eye strain",
-    "settingBiometricLock": "Biometric Lock",
-    "settingBiometricLockSubtitle": "Secure app access",
-    "settingLanguage": "Language",
-    "settingSelectLanguage": "Select Language",
-    "@settingSelectLanguage": {
-        "description": "Label for selecting app language"
-    },
+  "autoDetect": "Automatic",
+  "scanning": "Scanning...",
+  "fromImage": "From image",
 
-    "welcomeMessage": "Welcome to my app",
-    "greetingMessage": "Hello {name}!",
-    "@greetingMessage": {
-        "description": "Greeting message shown on home screen",
-        "placeholders": {
-        "name": {
-            "type": "String",
-            "example": "John"
-        }
-        }
+  "filterBank": "Bank",
+  "filterSocial": "Social",
+  "filterPayment": "Payment",
+  "filterCrypto": "Crypto",
+  "filterPhone": "Phone",
+  "filterLink": "Link",
+  "filterMessenger": "Messenger",
+
+  "shortcutTitle": "Shortcuts",
+  "shortcutEditReorder": "Edit & Reorder",
+  "shortcutInstruction": "Long press to reorder. Tap the eye icon to hide/show.",
+  "shortcutHiddenTitle": "Hidden shortcuts",
+
+  "shortcutSocialDescription": "Social media & contacts",
+  "shortcutPaymentDescription": "Payment & financial services",
+  "shortcutLinkDescription": "Website links & URLs",
+
+  "settingTitle": "Settings",
+  "settingGeneral": "General",
+  "settingContent": "Content",
+  "settingData": "Data",
+  "settingDarkMode": "Dark Mode",
+  "settingDarkModeSubtitle": "Reduce eye strain",
+  "settingBiometricLock": "Biometric Lock",
+  "settingBiometricLockSubtitle": "Secure app access",
+  "settingLanguage": "Language",
+  "selectPlatform": "Select Platform",
+  "settingSelectLanguage": "Select Language",
+
+  "@settingSelectLanguage": {
+    "description": "Label for selecting app language"
+  },
+
+  "welcomeMessage": "Welcome to my app",
+  "greetingMessage": "Hello {name}!",
+  "@greetingMessage": {
+    "description": "Greeting message shown to user",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
     }
+  },
+  "scanImageError": "Error scanning image",
+  "scanSuccess": "Scan successful",
+  "cannotReadQRData": "Unable to read QR data",
+  "noQRFoundInImage": "No QR code found in the image",
+  "imageGallery": "Photo library",
+  "takePhoto": "Take photo",
+  "addToFavorites": "Add to favorites",
+  "qrDeletePermanent": "This QR will be permanently deleted.\nAre you sure?",
+  "deleteQrTitle": "Delete QR Code?",
+  "cancel": "Cancel",
+  "copied": "Copied",
+  "addedToFavorites": "Added to favorites",
+  "removedFromFavorites": "Removed from favorites"
 }

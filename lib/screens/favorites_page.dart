@@ -1,4 +1,3 @@
-// screens/favorites_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quick_app/core/theme/app_theme.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quick_app/l10n/app_localizations.dart';
+import 'package:quick_app/l10n/l10n.dart';
 import 'package:quick_app/services/storage_service.dart';
 import 'package:quick_app/widgets/shortcuts_list.dart';
 import '../models/shortcut_item.dart';
@@ -125,7 +125,6 @@ class _ManageShortcutsPageState extends State<ManageShortcutsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: const Color(0xFF0F172A),
       body: SafeArea(

@@ -153,7 +153,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
     // final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: SafeArea(
@@ -183,14 +183,14 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                         Text(
                           widget.qr.title,
                           style: const TextStyle(
-                            fontSize: 24,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                             // color: Colors.white,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        // const SizedBox(height: 4),
                         Text(
                           widget.qr.getType!.getName(context),
                           style: TextStyle(
@@ -203,7 +203,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                   const SizedBox(width: 12),
                   // Favorite Button
                   Material(
-                    color: const Color(0xFF334155),
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
                       onTap: _toggleFavorite,
@@ -221,7 +221,7 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                   const SizedBox(width: 8),
                   // Close Button
                   Material(
-                    color: const Color(0xFF334155),
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
                       onTap: () => Navigator.pop(context),
@@ -230,7 +230,6 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                         padding: const EdgeInsets.all(12),
                         child: const Icon(
                           Icons.close,
-                          color: Colors.white,
                           size: 24,
                         ),
                       ),
@@ -251,9 +250,9 @@ class _QRActionBottomSheetState extends State<QRActionBottomSheet> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF3B82F6).withOpacity(0.3),
+                    color: Theme.of(context).focusColor,
                     blurRadius: 20,
-                    spreadRadius: 2,
+                    spreadRadius: 1,
                   ),
                 ],
               ),

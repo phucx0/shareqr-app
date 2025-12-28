@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:quick_app/core/theme/app_theme.dart';
@@ -9,7 +10,6 @@ import 'package:quick_app/screens/add_qr_page.dart';
 import 'package:quick_app/screens/edit_qr_page.dart';
 import 'package:quick_app/services/favorite_qr_service.dart';
 import 'package:quick_app/services/snackbar_service.dart';
-import 'package:quick_app/services/type_service.dart';
 import 'package:quick_app/widgets/animated_fab.dart';
 import 'package:quick_app/widgets/favorite_qr_list.dart';
 import 'package:quick_app/widgets/qr_action_bottom_sheet.dart';
@@ -289,134 +289,103 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 20.0,
-            right: 20.0,
-            top: 20.0
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppHeader(),
-              const SizedBox(height: 24),
-
-              ValueListenableBuilder(
-                valueListenable: Hive.box<QRItem>('QRsBox').listenable(),
-                builder: (context, qrsBox, _) {
-                  return ValueListenableBuilder(
-                    valueListenable: Hive.box<FavoriteQR>('favoriteQRBox').listenable(),
-                    builder: (context, favoriteBox, _) {
-                      final favoriteQRList = FavoriteQRService.getFavoriteShortcuts();
-                      return FavoriteQrList(
-                        qrs: favoriteQRList,
-                        onAddTap: openAddFavoriteQR,
-                      );
-                    },
-                  );
-                },
-              ),
-
-              const SizedBox(height: 24),
-              // Main content - scrollable
-              Expanded(
-                child: ValueListenableBuilder(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Theme.of(context).scaffoldBackgroundColor, // màu nền
+        statusBarIconBrightness: Brightness.dark, // icon đen
+      ),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 20.0,
+              right: 20.0,
+              // top: 8.0
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppHeader(),
+                // const SizedBox(height: 24),
+      
+                ValueListenableBuilder(
                   valueListenable: Hive.box<QRItem>('QRsBox').listenable(),
-                  builder: (context, Box<QRItem> box, _) {
-                    final _QRs = box.values.toList();
-                    qrs = _QRs;
-                    return SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: TypeService.getDefaultTypes().map((type) {
-                          final typeShortcuts = _QRs
-                              .where((s) => s.type == type.type)
-                              .toList();
-
-                          if (typeShortcuts.isEmpty) {
-                            return const SizedBox.shrink();
-                          }
-
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _buildSectionHeader(
-                                title: type.getName(context),
-                                icon: Icons.payment,
-                                color: const Color(0xFF10B981),
-                              ),
-                              const SizedBox(height: 12),
-                              QRGrid(
-                                qrs: typeShortcuts,
-                                onTap: _handleShortcutTap,
-                              ),
-                              const SizedBox(height: 24),
-                            ],
-                          );
-                        }).toList(),
-                      ),
+                  builder: (context, qrsBox, _) {
+                    return ValueListenableBuilder(
+                      valueListenable: Hive.box<FavoriteQR>('favoriteQRBox').listenable(),
+                      builder: (context, favoriteBox, _) {
+                        final favoriteQRList = FavoriteQRService.getFavoriteShortcuts();
+                        return FavoriteQrList(
+                          qrs: favoriteQRList,
+                          onAddTap: openAddFavoriteQR,
+                        );
+                      },
                     );
                   },
                 ),
-              ),
-            ],
+      
+                const SizedBox(height: 24),
+                // Main content - scrollable
+                Expanded(
+                  child: Column(
+                    spacing: 8,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "Danh sách QR",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600
+                            ),
+                          )
+                        ],
+                      ),
+                      Expanded(
+                        child: ValueListenableBuilder(
+                          valueListenable: Hive.box<QRItem>('QRsBox').listenable(),
+                          builder: (context, Box<QRItem> box, _) {
+                            final _QRs = box.values.toList();
+                            qrs = _QRs;
+                            return SingleChildScrollView(
+                              padding: const EdgeInsets.only(bottom: 40),
+                              child: QRGrid(
+                                qrs: qrs, 
+                                onTap: _handleShortcutTap
+                              )
+                            );
+                          }
+                        ),
+                      ),
+                    ],
+                  )
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      floatingActionButton: AnimatedFab(
-        onPressed: () async {
-          final navigator = Navigator.of(context); // Lưu trước
-            final result = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddQRScreen(),
-              ),
-            );
-            
-            if (result != null) {
-              navigator.pop(result);
-          }
-        },
-        icon: Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 24,
-        )
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader({
-    required String title,
-    required IconData icon,
-    required Color color,
-  }) {
-    return Row(
-      children: [
-        // Container(
-        //   padding: const EdgeInsets.all(8),
-        //   decoration: BoxDecoration(
-        //     color: color.withOpacity(0.2),
-        //     borderRadius: BorderRadius.circular(8),
-        //   ),
-        //   child: Icon(
-        //     icon,
-        //     color: color,
-        //     size: 20,
-        //   ),
-        // ),
-        // const SizedBox(width: 12),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+        floatingActionButton: AnimatedFab(
+          onPressed: () async {
+            final navigator = Navigator.of(context); // Lưu trước
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddQRScreen(),
+                ),
+              );
+              
+              if (result != null) {
+                navigator.pop(result);
+            }
+          },
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 24,
+          )
         ),
-      ],
+      ),
     );
   }
 

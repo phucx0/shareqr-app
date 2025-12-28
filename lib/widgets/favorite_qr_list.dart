@@ -133,7 +133,7 @@ class FavoriteQrList extends StatelessWidget {
                 GestureDetector(
                   onTap: onAddTap,
                   child: Icon(
-                    Icons.push_pin,
+                    Icons.edit,
                     size: 20,
                   ),
                 )

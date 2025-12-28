@@ -92,6 +92,7 @@ class _HomePageState extends State<HomePage> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 40),
             child: Column(
               spacing: 16,
               children: [
@@ -327,38 +328,43 @@ class _HomePageState extends State<HomePage> {
       
                 const SizedBox(height: 24),
                 // Main content - scrollable
-                Expanded(
-                  child: Column(
-                    spacing: 8,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Danh sách QR",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600
-                            ),
-                          )
-                        ],
-                      ),
-                      Expanded(
-                        child: ValueListenableBuilder(
+                SingleChildScrollView(
+                  // padding: const EdgeInsets.only(bottom: 40),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(24)
+                    ),
+                    padding: EdgeInsets.only(
+                      left: 16, right: 16, top: 16, bottom: 4
+                    ),
+                    child: Column(
+                      spacing: 16,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Danh sách QR",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600
+                              ),
+                            )
+                          ],
+                        ),
+                        ValueListenableBuilder(
                           valueListenable: Hive.box<QRItem>('QRsBox').listenable(),
                           builder: (context, Box<QRItem> box, _) {
                             final _QRs = box.values.toList();
                             qrs = _QRs;
-                            return SingleChildScrollView(
-                              padding: const EdgeInsets.only(bottom: 40),
-                              child: QRGrid(
+                            return QRGrid(
                                 qrs: qrs, 
                                 onTap: _handleShortcutTap
-                              )
-                            );
+                              );
                           }
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   )
                 ),
               ],

@@ -17,6 +17,7 @@
 
   "scan_qr": "Quét mã QR",
   "place_qr_in_frame": "Đưa mã QR vào trong khung để quét",
+  "qrCodeList": "Danh sách QR",
 
   "contentQR": "Nội dung QR",
   "nameQR": "Tên QR",

@@ -17,6 +17,7 @@
 
   "scan_qr": "Scan QR code",
   "place_qr_in_frame": "Place the QR code inside the frame to scan",
+  "qrCodeList": "QR list",
 
   "contentQR": "QR Content",
   "nameQR": "QR Name",

@@ -25,7 +25,7 @@ class QRCard extends StatelessWidget {
         aspectRatio: 1,
         child: Container(
           decoration: BoxDecoration(
-            color: AppTheme.darkest,
+            color: AppTheme.dark,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(

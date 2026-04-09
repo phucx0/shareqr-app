@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
+
   Future<void> _toggleFavorite(bool isFavorite, QRItem qr) async {
     try {
       if (isFavorite) {
@@ -57,16 +58,17 @@ class _HomePageState extends State<HomePage> {
       } else {
         await FavoriteQRService.addFavorite(
           shortcutId: qr.id,
-          note: qr.description.isNotEmpty 
-              ? qr.description 
-              : null,
+          note: qr.description.isNotEmpty ? qr.description : null,
         );
         SnackbarService.showMessage(l10n.addedToFavorites, context);
       }
-      
     } catch (e) {
       if (mounted) {
-        SnackbarService.showMessage('Lỗi: ${e.toString()}', context, isError: true);
+        SnackbarService.showMessage(
+          'Lỗi: ${e.toString()}',
+          context,
+          isError: true,
+        );
       }
     }
   }
@@ -77,15 +79,14 @@ class _HomePageState extends State<HomePage> {
       // 1. favorite lên đầu
       int favCompare = (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0);
       if (favCompare != 0) return favCompare;
-      
+
       // 2. cùng isFavorite → sort theo tên alphabet
       return a.title.compareTo(b.title);
     });
 
-
     showModalBottomSheet(
       context: context,
-      builder: (_) => StatefulBuilder(  
+      builder: (_) => StatefulBuilder(
         builder: (context, setModalState) => Container(
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
@@ -107,7 +108,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 0,
+                  ),
                   child: Column(
                     spacing: 16,
                     children: sortedQRs.map((qr) {
@@ -123,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                                 qr.title,
                                 style: TextStyle(
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w700
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                               Text(
@@ -133,57 +137,59 @@ class _HomePageState extends State<HomePage> {
                                   fontWeight: FontWeight.w400,
                                   // color: Colors.white60
                                 ),
-                              )
+                              ),
                             ],
                           ),
-                  
+
                           InkWell(
-                            onTap: () async {  
+                            onTap: () async {
                               await _toggleFavorite(isFavorite, qr);
-                              setModalState(() {}); 
-                              onEdited?.call(); 
-                              sortedQRs.sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0));
+                              setModalState(() {});
+                              onEdited?.call();
+                              sortedQRs.sort(
+                                (a, b) =>
+                                    (b.isFavorite ? 1 : 0) -
+                                    (a.isFavorite ? 1 : 0),
+                              );
                             },
                             borderRadius: BorderRadius.circular(50),
                             child: Container(
                               padding: const EdgeInsets.all(12),
                               child: Icon(
                                 isFavorite ? Icons.star : Icons.star_border,
-                                color: isFavorite ? Colors.amber : Theme.of(context).colorScheme.onBackground,
+                                color: isFavorite
+                                    ? Colors.amber
+                                    : Theme.of(
+                                        context,
+                                      ).colorScheme.onBackground,
                                 size: 20,
                               ),
                             ),
                           ),
                         ],
                       );
-                    }).toList()
+                    }).toList(),
                   ),
-                )
-              ]
+                ),
+              ],
             ),
           ),
         ),
-      )
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
     if (isLoading) {
       return const Scaffold(
         backgroundColor: Color(0xFF0F172A),
-        body: Center(
-          child: CircularProgressIndicator(
-            color: Colors.white,
-          ),
-        ),
+        body: Center(child: CircularProgressIndicator(color: Colors.white)),
       );
     }
 
     // Empty state - khích lệ tạo QR đầu tiên
     if (qrs.isEmpty) {
-
       return Scaffold(
         backgroundColor: Color(0xFF0F172A),
         body: SafeArea(
@@ -199,9 +205,9 @@ class _HomePageState extends State<HomePage> {
                     height: 250,
                     width: 250,
                   ),
-                  
+
                   const SizedBox(height: 32),
-                  
+
                   // Title
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -225,9 +231,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 12),
-                  
+
                   // Description
                   const Text(
                     'Tạo QR đầu tiên của bạn và quản lý thông tin nhanh chóng, dễ dàng.',
@@ -238,24 +244,20 @@ class _HomePageState extends State<HomePage> {
                       height: 1.5,
                     ),
                   ),
-                  
+
                   const SizedBox(height: 40),
-                  
+
                   // Create Button
                   ElevatedButton(
                     onPressed: () async {
                       await Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => AddQRScreen(),
-                        ),
+                        MaterialPageRoute(builder: (context) => AddQRScreen()),
                       );
                       _loadQRs();
                     },
                     style: ElevatedButton.styleFrom(
-                      textStyle: const TextStyle(
-                        inherit: true,
-                      ),
+                      textStyle: const TextStyle(inherit: true),
                       backgroundColor: const Color(0xFF3B82F6),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(
@@ -308,15 +310,18 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppHeader(),
-                // const SizedBox(height: 24),
-      
+                const SizedBox(height: 16),
+
                 ValueListenableBuilder(
                   valueListenable: Hive.box<QRItem>('QRsBox').listenable(),
                   builder: (context, qrsBox, _) {
                     return ValueListenableBuilder(
-                      valueListenable: Hive.box<FavoriteQR>('favoriteQRBox').listenable(),
+                      valueListenable: Hive.box<FavoriteQR>(
+                        'favoriteQRBox',
+                      ).listenable(),
                       builder: (context, favoriteBox, _) {
-                        final favoriteQRList = FavoriteQRService.getFavoriteShortcuts();
+                        final favoriteQRList =
+                            FavoriteQRService.getFavoriteShortcuts();
                         return FavoriteQrList(
                           qrs: favoriteQRList,
                           onAddTap: openAddFavoriteQR,
@@ -325,47 +330,37 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
-      
+
                 const SizedBox(height: 24),
                 // Main content - scrollable
                 SingleChildScrollView(
-                  // padding: const EdgeInsets.only(bottom: 40),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(24)
-                    ),
-                    padding: EdgeInsets.only(
-                      left: 16, right: 16, top: 16, bottom: 4
-                    ),
-                    child: Column(
-                      spacing: 16,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              "Danh sách QR",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600
-                              ),
-                            )
-                          ],
-                        ),
-                        ValueListenableBuilder(
-                          valueListenable: Hive.box<QRItem>('QRsBox').listenable(),
-                          builder: (context, Box<QRItem> box, _) {
-                            final _QRs = box.values.toList();
-                            qrs = _QRs;
-                            return QRGrid(
-                                qrs: qrs, 
-                                onTap: _handleShortcutTap
-                              );
-                          }
-                        ),
-                      ],
-                    ),
-                  )
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: Column(
+                    spacing: 16,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            l10n.qrCodeList,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      ValueListenableBuilder(
+                        valueListenable: Hive.box<QRItem>(
+                          'QRsBox',
+                        ).listenable(),
+                        builder: (context, Box<QRItem> box, _) {
+                          final _QRs = box.values.toList();
+                          qrs = _QRs;
+                          return QRGrid(qrs: qrs, onTap: _handleShortcutTap);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -374,22 +369,16 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: AnimatedFab(
           onPressed: () async {
             final navigator = Navigator.of(context); // Lưu trước
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddQRScreen(),
-                ),
-              );
-              
-              if (result != null) {
-                navigator.pop(result);
+            final result = await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddQRScreen()),
+            );
+
+            if (result != null) {
+              navigator.pop(result);
             }
           },
-          icon: Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 24,
-          )
+          icon: Icon(Icons.add, color: Colors.white, size: 24),
         ),
       ),
     );
@@ -411,9 +400,7 @@ class _HomePageState extends State<HomePage> {
         // Navigate to edit page
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => EditQRPage(qr: qr),
-          ),
+          MaterialPageRoute(builder: (context) => EditQRPage(qr: qr)),
         );
       },
     );
